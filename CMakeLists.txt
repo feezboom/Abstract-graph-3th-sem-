@@ -15,7 +15,6 @@ SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 include_directories(2sat)
 
 add_subdirectory(jsoncpp)
-add_subdirectory(agraph)
 add_subdirectory(2sat)
 add_subdirectory(Graph)
 
@@ -26,5 +25,5 @@ set(headers catch.hpp)
 link_directories("${CMAKE_BINARY_DIR}/jsoncpp/lib")
 
 add_executable(tests ${sources} ${headers})
-add_dependencies(tests jsoncpp_lib agraph)
-target_link_libraries(tests jsoncpp agraph)
+add_dependencies(tests jsoncpp_lib )
+target_link_libraries(tests jsoncpp)

@@ -1,17 +1,22 @@
 dfs_for_top started from vertex notc
 dfs timer == 0 joined notc
 dfs timer == 1 left notc
-dfs timer == 2 joined a
-dfs timer == 3 left a
-dfs timer == 4 joined notb
-tried to join vertex a, but failed : color == black
-dfs timer == 5 left notb
-dfs timer == 6 joined d
-tried to join vertex notb, but failed : color == black
+dfs timer == 2 joined nota
 tried to join vertex notc, but failed : color == black
-dfs timer == 7 left d
-dfs timer == 8 joined Hello
-dfs timer == 9 left Hello
+dfs timer == 3 left nota
+dfs timer == 4 joined c
+tried to join vertex nota, but failed : color == black
+dfs timer == 5 left c
+dfs timer == 6 joined notb
+dfs timer == 7 left notb
+dfs timer == 8 joined a
+tried to join vertex notb, but failed : color == black
+dfs timer == 9 left a
+dfs timer == 10 joined b
+tried to join vertex a, but failed : color == black
+dfs timer == 11 left b
+dfs timer == 12 joined Hello
+dfs timer == 13 left Hello
 Top_sort finished...
 
 

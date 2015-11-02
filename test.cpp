@@ -1,6 +1,5 @@
 #include <vector>
 #include "jsoncpp/include/json/json.h"
-#include "agraph/agraph.h"
 #include "2sat/2sat.h"
 #include "Graph/graph.h"
 #include "catch.hpp"
@@ -15,9 +14,11 @@ void findTest(string name, std :: ifstream& ifs) {
     if(!ifs)
         ifs.open("../tests/" + name, std::ifstream::in);
     if(!ifs)
+        ifs.open("../ninja_turtles/2sat/tests/" + name, std::ifstream::in);
+    if(!ifs)
         throw "test file" + name + " was not found";
 }
-void test2Sat(string testName) {
+bool test2Sat(string testName) {
     std::ifstream ifs;
     Json::Value root;
     Json::Reader reader;
@@ -49,13 +50,15 @@ void test2Sat(string testName) {
     }
 
     bool answer = solve_2sat(data);
-    REQUIRE(answer == true);
+    return answer;
 }
 
 
 SCENARIO("Testing 2sat task"){
     try {
-        test2Sat("2sat.json");
+        REQUIRE(test2Sat("2sat.json") == true);
+        REQUIRE(test2Sat("test0.json") == true);
+        REQUIRE(test2Sat("test1.json") == false);
     }
     catch(string error) {
         cout << "test error : " << error << endl;

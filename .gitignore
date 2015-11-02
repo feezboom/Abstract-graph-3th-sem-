@@ -9,3 +9,5 @@ install_manifest.txt
 *.user
 *.cbp
 CMakeLists.txt.user.18
+/build*
+*~

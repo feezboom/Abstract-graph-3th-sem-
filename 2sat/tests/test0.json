@@ -1,0 +1,11 @@
+{
+    "2sat": [
+        { "first": {"label": "a", "neg": false},  "second": {"label": "b", "neg": true}},
+        { "first": {"label": "b", "neg": true},  "second": {"label": "c", "neg": false}},
+	{ "first": {"label": "c", "neg": true},  "second": {"label": "d", "neg": false}},
+	{ "first": {"label": "d", "neg": false},  "second": {"label": "e", "neg": true}},
+	{ "first": {"label": "e", "neg": true},  "second": {"label": "f", "neg": false}},
+	{ "first": {"label": "f", "neg": true},  "second": {"label": "g", "neg": true}},
+        { "first": {"label": "k", "neg": false},  "second": {"label": "e", "neg": false}}
+        ]
+}
