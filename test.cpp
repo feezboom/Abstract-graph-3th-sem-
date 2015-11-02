@@ -1,73 +1,65 @@
 #include <vector>
 #include "jsoncpp/include/json/json.h"
 #include "agraph/agraph.h"
-
+#include "2sat/2sat.h"
+#include "Graph/graph.h"
 #include "catch.hpp"
-
 #include <fstream>
 #include <iostream>
 
 using std::cout;
 using std::endl;
 
-SCENARIO("scenario1"){
+void findTest(string name, std :: ifstream& ifs) {
+    ifs.open("../2sat/tests/" + name, std::ifstream::in);
+    if(!ifs)
+        ifs.open("../tests/" + name, std::ifstream::in);
+    if(!ifs)
+        throw "test file" + name + " was not found";
+}
+void test2Sat(string testName) {
     std::ifstream ifs;
     Json::Value root;
     Json::Reader reader;
 
-    ifs.open("../mipt/2sat.json", std::ifstream::in);
-    bool res = reader.parse(ifs, root);
-    REQUIRE( res != false );
+    findTest(testName, ifs);
 
-    cout << "pairs:" << endl;
+    bool res = reader.parse(ifs, root);
+    if (res == false) {
+        throw "mistake in json test file (" + testName + ")";
+    }
 
     Json::Value g = root["2sat"];
+
+    vector <std::pair<Variable, Variable>> data;
+
     for(int i = 0; i < g.size(); ++i){
-        cout << g[i][0].asString() << " : " << g[i][1].asString() << endl;
+        Variable var1, var2;
+        Json::Value temp = g[i]["first"];
+
+
+        var1.label = temp["label"].asString();
+        var1.negative = temp["neg"].asBool();
+
+        temp = g[i]["second"];
+        var2.label = temp["label"].asString();
+        var2.negative = temp["neg"].asBool();
+
+        data.push_back(std::pair<Variable, Variable> (var1, var2));
     }
 
+    bool answer = solve_2sat(data);
+    REQUIRE(answer == true);
 }
 
-SCENARIO("scenario2"){
-    std::ifstream ifs;
-    Json::Value root;
-    Json::Reader reader;
 
-    ifs.open("../mipt/graph.json", std::ifstream::in);
-    bool res = reader.parse(ifs, root);
-    REQUIRE( res != false );
-
-    /* создаем граф, подходящий под алгоритм (тип алгоритма описан в json) */
-    std::unique_ptr<AGraph> g(GraphFactory::makeGraph(root));
-    g->algorithm();
-
-    /* тестируем со страшной силой */
-
-    Json::Value r = root["graphs"][0]["graph"];
-    cout << "nodes:" << endl;
-    for (auto& n : r["nodes"]) {
-        cout << n["id"].asString() << " : " << n["label"].asString() << endl;
+SCENARIO("Testing 2sat task"){
+    try {
+        test2Sat("2sat.json");
     }
-
-    cout << "edges:" << endl;
-    for (auto& e : r["edges"]) {
-        cout << e["source"].asString() << " -> " << e["target"].asString() << endl;
+    catch(string error) {
+        cout << "test error : " << error << endl;
+        exit(1);
     }
 }
 
-SCENARIO("scenario3", "[tag1][tag2]"){
-    GIVEN("vector"){
-        std::vector<int> v( 5 );
-
-        WHEN( "the size is increased" ) {
-            v.resize( 10 );
-            THEN( "the size and capacity change" ) {
-                REQUIRE( v.size() == 10 );
-                REQUIRE( v.capacity() >= 10 );
-            }
-        }
-        WHEN( "nothing happened" ) {
-            REQUIRE( v.size() != 5 ); //неправильная проверка
-        }
-    }
-}

@@ -1,17 +1,23 @@
 cmake_minimum_required (VERSION 3.0)
-project (mipt)
+project (ninja_turtles)
+
+ADD_DEFINITIONS("-std=c++11")
 
 #set(CMAKE_VERBOSE_MAKEFILE on)
 #set(CMAKE_BUILD_TYPE Debug)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -save-temps")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
+include_directories(2sat)
+
 add_subdirectory(jsoncpp)
 add_subdirectory(agraph)
+add_subdirectory(2sat)
+add_subdirectory(Graph)
 
 set(sources test.cpp catch_inc.cpp)
 set(headers catch.hpp)

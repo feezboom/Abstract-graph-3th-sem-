@@ -1,0 +1,24 @@
+dfs_for_top started from vertex notc
+dfs timer == 0 joined notc
+dfs timer == 1 left notc
+dfs timer == 2 joined a
+dfs timer == 3 left a
+dfs timer == 4 joined notb
+tried to join vertex a, but failed : color == black
+dfs timer == 5 left notb
+dfs timer == 6 joined d
+tried to join vertex notb, but failed : color == black
+tried to join vertex notc, but failed : color == black
+dfs timer == 7 left d
+dfs timer == 8 joined Hello
+dfs timer == 9 left Hello
+Top_sort finished...
+
+
+
+
+
+
+
+
+
