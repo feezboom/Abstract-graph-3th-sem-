@@ -18,6 +18,7 @@ void findTest(string name, std :: ifstream& ifs) {
     if(!ifs)
         throw "test file" + name + " was not found";
 }
+
 bool test2Sat(string testName) {
     std::ifstream ifs;
     Json::Value root;
@@ -38,7 +39,6 @@ bool test2Sat(string testName) {
         Variable var1, var2;
         Json::Value temp = g[i]["first"];
 
-
         var1.label = temp["label"].asString();
         var1.negative = temp["neg"].asBool();
 
@@ -50,15 +50,23 @@ bool test2Sat(string testName) {
     }
 
     bool answer = solve_2sat(data);
+    if(answer) {
+        cout << "test " + testName + " has at least one solution" << endl;
+    } else {
+        cout << "test " + testName + " hasn't got any solutions" << endl;
+    }
     return answer;
 }
 
 
 SCENARIO("Testing 2sat task"){
     try {
-        REQUIRE(test2Sat("2sat.json") == true);
         REQUIRE(test2Sat("test0.json") == true);
         REQUIRE(test2Sat("test1.json") == false);
+        REQUIRE(test2Sat("test2.json") == false);
+        REQUIRE(test2Sat("test3.json") == true);
+        REQUIRE(test2Sat("test4.json") == true);
+        REQUIRE(test2Sat("2sat.json") == true);
     }
     catch(string error) {
         cout << "test error : " << error << endl;

@@ -11,3 +11,4 @@ install_manifest.txt
 CMakeLists.txt.user.18
 /build*
 *~
+*.swp

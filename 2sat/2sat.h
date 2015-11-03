@@ -26,19 +26,22 @@ struct Variable {
     }
 };
 
+void makeNegative(string& label) {
+    if (label.length() > 3 && label.substr(0, 3) == "not") {
+         label = label.substr(3, label.length() - 3);
+    } else {
+        label = "not" + label;
+    }
+}
+
 bool isProblem(vector <string> strongComponent) {
     while (!strongComponent.empty()) {
-
-        string temp = *(strongComponent.cbegin());
+        string temp = *(--strongComponent.end());
         strongComponent.pop_back();
 
-        string check;
-        if (temp.length() > 3 && temp.substr(0, 3) == "not") {
-             check = "not" + temp;
-        } else {
-            check = temp;
-        }
-//        cout << "Here is TEMP!!!!!!!!!" << temp << endl;
+        string check = temp;
+        makeNegative(check);
+
         for (const auto& it : strongComponent) {
             if (it == check)
                 return true;
@@ -47,12 +50,20 @@ bool isProblem(vector <string> strongComponent) {
     return false;
 }
 
+void printStrongComponents(vector <vector <string>> components) {
+    for(const auto& component : components) {
+        for(const auto& v : component) {
+            cout << v << " ";
+        }
+        cout << endl;
+    }
+}
+
 bool solve_2sat(vector <std::pair <Variable, Variable>> disjunkts) {
 
     graph_list <int, int> our2SatGraph;
-    our2SatGraph.insert_vertex("Hello");
     for (const auto& it : disjunkts) {
-        string v1 = ((it.first.negative) ? "not" : "") + it.first.label;
+        string v1 = ((it.first.negative) ? "" : "not") + it.first.label; //this is because of replacing disjunct to implication
         string v2 = ((it.second.negative) ? "not" : "") + it.second.label;
         our2SatGraph.insert_vertex(v1);
         our2SatGraph.insert_vertex(v2);
@@ -60,6 +71,11 @@ bool solve_2sat(vector <std::pair <Variable, Variable>> disjunkts) {
     }
 
     auto strongComponents = our2SatGraph.Kosaraju();
+//    our2SatGraph.print_graph();
+//    cout << "strongComponents are : " << endl;
+//    printStrongComponents(strongComponents);
+//    cout << "OK" << endl;
+
     for(const auto& it : strongComponents) {
         if (isProblem(it)) {
             return false;
