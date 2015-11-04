@@ -25,54 +25,46 @@ template <class type, class E> class graph_list;
 template <class type, class E>
 class edge{
 private:
-	friend class graph_list <type, E>;
-	friend class vertex <type>;
-
 	shared_ptr <vertex<type>> vertex_to;
 	shared_ptr <vertex<type>> vertex_from;
-    E weigh;
+    E weight;
 public:
 	edge() {
 		vertex_to = nullptr;
 		vertex_from = nullptr;
-		weigh = 0;
+        weight = 0;
 	}
-	edge(shared_ptr<vertex<type>> from, shared_ptr <vertex<type>> to, E weigh) {
+    edge(shared_ptr<vertex<type>> from, shared_ptr <vertex<type>> to, E weight) {
 		vertex_to = to;
 		vertex_from = from;
-		this->weigh = weigh;
+        this->weight = weight;
 	}
 public:
 	void print_edge() {
 		cout << "Edge : ";
-		cout << "From : " << vertex_from->name << "; To : " << vertex_to->name << "; Weigh == " << weigh << endl;
+        cout << "From : " << vertex_from->name << "; To : " << vertex_to->name << "; weight == " << weight << endl;
 		return;
 	}
 
 };
-
-
 //**********Vertex class***********//
 template <class type>
 class vertex{
-	
-	template <class Type, class Edge>
-	friend class graph_list;
-	template <class Type>
-	friend class time_out_comparator;
-	template <class Type, class Edge>
-	friend class edge;
+    template <class Type, class Edge> friend class graph_list;
+    template <class Type> friend class time_out_comparator;
+    template <class Type> friend class city;
+    template <class Type, class Edge> friend class CountryGraph;
 private:
-	unordered_map <string, shared_ptr <vertex <type>>> vertices_to;		
-	unordered_map <string, shared_ptr <vertex <type>>> vertices_from;	
+    unordered_map <string, shared_ptr <vertex <type>>> ways_to;
+    unordered_map <string, shared_ptr <vertex <type>>> ways_from;
 
-	void add_way_to(string name, shared_ptr <vertex<type>> pointer) {
-		vertices_to[name] = shared_ptr <vertex<type>>{ pointer };
+    void add_way_to(string name, shared_ptr <vertex<type>> pointer) {
+        ways_to[name] = shared_ptr <vertex<type>>(pointer);
 		return;
 		// then update edges.
-	};
-	void add_way_from(string name, shared_ptr <vertex<type>> pointer) {
-		vertices_from[name] = shared_ptr <vertex<type>>{ pointer };
+    }
+    void add_way_from(string name, shared_ptr <vertex<type>> pointer) {
+        ways_from[name] = shared_ptr <vertex<type>>(pointer);
 		return;
 		// then I nust update edges. I'll do it later;
 	}
@@ -81,11 +73,14 @@ private:
 	type data;
 	
 //DFS	
-	color current_color;					//Детали DFS
+    color current_color;
 	size_t thelowestlink;
 	size_t time_in;
 	size_t time_out;
 //DFS
+
+//Distance for some algorithms
+    int distance;
 
 public:
 	vertex() {
@@ -121,10 +116,10 @@ public:
 	}
 
 	unordered_map <string, shared_ptr <vertex <type>>> get_map_to() {
-		return vertices_to;
+        return ways_to;
 	}
 	unordered_map <string, shared_ptr <vertex <type>>> get_map_from() {
-		return vertices_from;
+        return ways_from;
 	}
 
 	void print_vertex() {
@@ -136,11 +131,11 @@ public:
 	}
 	void print_vertex_ways() {
 		cout << "Ways to : ";
-		for (const auto &kvp : vertices_to) {
+        for (const auto &kvp : ways_to) {
 			cout << kvp.first << " ";
 		}
 		cout << endl << "Ways from : ";
-		for (const auto &kvp : vertices_from) {
+        for (const auto &kvp : ways_from) {
 			cout << kvp.first << " ";
 		}
 		cout << endl;
@@ -176,7 +171,7 @@ private:
 	int vertices_number;
 
 	int timer;
-	bool tree;			//Если это было дерево обхода, то true, иначе - false
+    bool tree;
 
 	void whitewash_all() {
 		for (auto& it : vertices) {
@@ -212,9 +207,9 @@ public:
 		return;
 	}
 
-	double get_weigh(const string& from, const string& to) {
+    double get_weight(const string& from, const string& to) {
 		if (vertex_in_graph(from) && vertex_in_graph(to))
-			return edges[from][to].weigh;
+            return edges[from][to].weight;
 		else {
 			cout << "No such vertex" << endl;
 		}
@@ -224,11 +219,11 @@ public:
 		cout << "You called function that prints all graph as lists. Now we're starting:" << endl;
 		for (const auto &it : vertices) {
 			cout << "Vertex : " << it.first << "; Ways to : ";
-			for (const auto &kvp : it.second->vertices_to) {
+            for (const auto &kvp : it.second->ways_to) {
 				cout << kvp.first << " ";
 			}
 			cout << "; Ways from : ";
-			for (const auto &kvp : it.second->vertices_from) {
+            for (const auto &kvp : it.second->ways_from) {
 				cout << kvp.first << " ";
 			}
 			cout << endl;
@@ -236,8 +231,8 @@ public:
 		cout << "printed_successfully\n";
 	}
 
-	void insert_vertices(const vector <vertex <type>>& vertices_to_insert) {
-		for (auto& it : vertices_to_insert) {
+    void insert_vertices(const vector <vertex <type>>& ways_to_insert) {
+        for (auto& it : ways_to_insert) {
 			if (!vertex_in_graph(it.name)) {
 				insert_vertex(it.name);
 			}
@@ -245,13 +240,13 @@ public:
 		return;
 	};
 
-	void add_edge(const string& from, const string& to, E weigh = 0) {
-		if (!vertex_in_graph(from) || !vertex_in_graph(to)) //Если в графе нет хотя бы одной из указанных вершин, вставка не удастся
+    void add_edge(const string& from, const string& to, E weight = 0) {
+        if (!vertex_in_graph(from) || !vertex_in_graph(to))
 			return;
 
 		auto v_from = vertices[from];		//Here are the pointers to vertices with names from and to
 		auto v_to = vertices[to];
-		edge <type, E> Edge{ v_from, v_to, weigh };
+        edge <type, E> Edge{ v_from, v_to, weight };
 		edges[from][to] = make_shared <edge <type, E>>(Edge);
 		v_from->add_way_to(to, v_to);//What did I wrote here?
 		v_to->add_way_from(from, v_from);		//Here I'm adding to and from vertices to theirs lists "to" and "from"
@@ -269,7 +264,7 @@ public:
 	void transpose() {
 		for (auto& it : vertices) {
 			auto v_pointer = (it.second);
-			v_pointer->vertices_to.swap(v_pointer->vertices_from);
+            v_pointer->ways_to.swap(v_pointer->ways_from);
 		}
 	}
 	
@@ -309,7 +304,7 @@ public:
 
 		return answer;
 	};
-
+private:
 	void dfs_for_Tarjan(shared_ptr <vertex <type>>& pvertex, fstream& log_file, vector<vector<string>>& answer) {
 		static stack <shared_ptr<vertex<type>>> Stack;
 		if (pvertex->current_color == color::white) {	
@@ -323,9 +318,9 @@ public:
 			return;
 		}
 
-		for (auto& ptr : pvertex->vertices_to) {
+        for (auto& ptr : pvertex->ways_to) {
 			if (ptr.second->current_color == color::white) {
-				dfs_for_Tarjan(ptr.second, log_file, answer);	//ptr.second is a vertex in the list of vertices_to of vertex *pvertex
+                dfs_for_Tarjan(ptr.second, log_file, answer);	//ptr.second is a vertex in the list of ways_to of vertex *pvertex
 				pvertex->thelowestlink = min(pvertex->thelowestlink, ptr.second->thelowestlink);
 			}
 			else {
@@ -351,7 +346,7 @@ public:
 		}
 		return;
 	};
-
+public:
 	vector <vector<string>> Tarjan() {
 		whitewash_all();
 		zero_numbers();
@@ -367,7 +362,7 @@ public:
 		}
 		return answer;
 	}
-
+private:
 	void dfs_for_top(shared_ptr <vertex<type>>& pvertex, fstream& log_file) {
 		if (pvertex->current_color == color::gray || pvertex->current_color == color::black) {
 			log_file << "tried to join vertex " << pvertex->name << ", but failed : color == " << ((pvertex->current_color == color::gray) ? "gray" : "black") << endl;
@@ -377,7 +372,7 @@ public:
 		log_file << "dfs timer == " << (pvertex->time_in = timer++) << " joined " << pvertex->name << endl;
 		pvertex->current_color = color::gray;
 
-		for (auto& ptr : pvertex->vertices_to) {//Проходимся по всем соседям вершины графа vertex, ptrs - итератор map<string, shared_ptr> соседей вершины
+        for (auto& ptr : pvertex->ways_to) {
 			dfs_for_top(ptr.second, log_file);
 		}
 
@@ -385,10 +380,10 @@ public:
 		pvertex->current_color = color::black;
 		return;
 	}
-	
+public:
 	void top_sort() {
 
-		whitewash_all();	//Красим все вершины в белый цвет
+        whitewash_all();
 		zero_numbers();		//Zero all vertices time_out and time_in
 
 		auto it = pvertices.begin();
@@ -414,6 +409,267 @@ public:
 
 };
 
+//*******************************************TRANSPORT BEGIN**************************************************//
+enum class traveltype {
+    road, railway, bus, train, car, plane, ship, byFoot, nohow
+};
 
 
+//*******************************************HEADER CITY******************************************************//
+template <class type>
+class city : public vertex<type> {
+private:
+    unordered_map <string, shared_ptr <city <type>>> roads_to;
+    unordered_map <string, shared_ptr <city <type>>> roads_from;
+
+    unordered_map <string, shared_ptr <city <type>>> railways_to;
+    unordered_map <string, shared_ptr <city <type>>> railways_from;
+
+    traveltype previousTravel;
+
+    void addRoadTo(string name, shared_ptr <city<type>> pointer);
+    void addRoadFrom(string name, shared_ptr <city<type>> pointer);
+    void addRailwayTo(string name, shared_ptr <city<type>> pointer);
+    void addRailwayFrom(string name, shared_ptr <city<type>> pointer);
+public:
+    city();
+    city(const string& name);
+};
+//*******************************************IMPLEMENTATION CITY**********************************************//
+template <class type>
+city <type> :: city() {
+    this->name = "noname";
+    this->data = 0;
+    this->current_color = color :: white;
+    this->previousTravel = traveltype :: nohow;
+    this->time_in = -1;
+    this->time_out = -1;
+}
+
+template <class type>
+city <type> :: city(const string &name) {
+    this->name = name;
+    this->data = 0;
+    this->current_color = color :: white;
+    this->previousTravel = traveltype :: nohow;
+    this->time_in = -1;
+    this->time_out = -1;
+}
+
+template <class type>
+void city <type> :: addRoadTo(string name, shared_ptr <city<type>> pointer) {
+    this->roads_to[name] = shared_ptr <city<type>>(pointer);
+    return;
+}
+
+template <class type>
+void city <type> :: addRoadFrom(string name, shared_ptr <city<type>> pointer) {
+    this->roads_from[name] = shared_ptr <city<type>>(pointer);
+    return;
+}
+
+template <class type>
+void city <type> :: addRailwayTo(string name, shared_ptr <city<type>> pointer) {
+    this->railways_to[name] = shared_ptr <city<type>>(pointer);
+    return;
+}
+
+template <class type>
+void city <type> :: addRailwayFrom(string name, shared_ptr <city<type>> pointer) {
+    this->railways_from[name] = shared_ptr <city<type>>(pointer);
+    return;
+}
+//*******************************************IMPLEMENTATION CITY END******************************************//
+
+
+//------------------------------------------------------------------------------------------------------------//
+
+
+//*******************************************HEADER COUNTRY***************************************************//
+template <class type, class E>
+class CountryGraph : public graph_list <type, E> {
+private:
+    const size_t discount = 20; //Our discount when we change type of transport in percents
+    const double applyDiscount = 1 - (double)discount/100;
+
+    list <shared_ptr <city <type>>> cityList;
+    map <string, map <string, double>> roadsPrice;
+    map <string, map <string, double>> railwaysPrice;
+
+    void whitewashAll();
+    bool areAllBlack();
+    bool cityInCountry(const string& name);
+    shared_ptr <city<type>> get_city_ptr(const string& name);
+
+public:
+    void insertCity(const string &cityName);
+    void insertCities(const vector <string> &cities);
+    void addRoad(const string &city1, const string &city2, double price);
+    void addRailway(const string &city1, const string &city2, double price);
+    double findTheCheapestWay(const string &start, const string &finish);
+    void theCheapesWayUpdate();
+    shared_ptr <city<type>> findMinDistanceCity();
+    void processing();
+};
+//*******************************************IMPLEMENTATION COUNTRY*******************************************//
+template <class type, class E>
+bool CountryGraph <type, E> :: cityInCountry(const string &name) {
+    for (const auto& it : cityList) {
+        if(it->name == name)
+            return true;
+    }
+    return false;
+}
+
+template <class type, class E>
+bool CountryGraph <type, E> :: areAllBlack() {
+    for(const auto &it : cityList) {
+        if (it->current_color == color :: white)
+            return false;
+    }
+    return true;
+}
+
+template <class type, class E>
+void CountryGraph <type, E> :: whitewashAll() {
+    for(auto &it : cityList) {
+        it->current_color = color :: white;
+    }
+}
+
+template <class type, class E>
+shared_ptr <city<type>> CountryGraph <type, E> :: get_city_ptr(const string &name) {
+    for(const auto &it : cityList) {
+        if(it->name == name)
+            return it;
+    }
+    return nullptr;
+}
+
+template <class type, class E>
+void CountryGraph <type, E> :: insertCity(const string &cityName) {
+    if(!cityInCountry(cityName)) {
+        auto ptr = make_shared <city<type>>(cityName);
+        cityList.push_back(ptr);
+    }
+}
+
+template <class type, class E>
+void CountryGraph <type, E> :: insertCities(const vector <string> &cities) {
+    for (const auto& it : cities) {
+        this->insertCity(it);
+    }
+}
+
+template <class type, class E>
+void CountryGraph <type, E> :: addRoad(const string& city1, const string& city2, double price) {
+    auto firstCity = this->getPtr(city1);
+    auto secondCity = this->getPtr(city2);
+
+    if(firstCity == nullptr)
+        throw "city " + city1 + "does not exist";
+    if(secondCity == nullptr)
+        throw "city " + city2 + "does not exist";
+
+    roadsPrice[city1][city2] = price;
+    roadsPrice[city2][city1] = price;
+
+    firstCity->add_road_to(city2);
+    firstCity->add_road_from(city2);
+
+    secondCity->add_road_to(city1);
+    secondCity->add_road_from(city1);
+//success
+}
+
+template <class type, class E>
+void CountryGraph <type, E> :: addRailway(const string &city1, const string &city2, double price) {
+    auto firstCity = this->getPtr(city1);
+    auto secondCity = this->getPtr(city2);
+
+    if(firstCity == nullptr)
+        throw "city " + city1 + "does not exist";
+    if(secondCity == nullptr)
+        throw "city " + city2 + "does not exist";
+
+    railwaysPrice[city1][city2] = price;
+    railwaysPrice[city2][city1] = price;
+
+    firstCity->add_railway_to(city2);
+    firstCity->add_railway_from(city2);
+
+    secondCity->add_railway_to(city1);
+    secondCity->add_railway_from(city1);
+}
+
+template <class type, class E>
+double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const string &finish) {
+    if(!cityInCountry(start))
+        throw "city" + start + "does not exist";
+    if(!cityInCountry(finish))
+        throw "city" + finish + "does not exist";
+
+    this->makeDistancesInfinite();
+    this->get_city_ptr(start)->distance = 0;
+
+    this->whitewashAll();
+
+    while(!areAllBlack()) {
+        this->processing();
+    }
+
+    auto finishPtr = get_city_ptr(finish);
+    return finishPtr->distance;
+}
+
+template <class type, class E>
+void CountryGraph <type, E> :: processing() {
+    auto ourCityPtr = this->findMinDistanceCity();
+    string ourCityName = ourCityPtr->name;
+    double ourCityDistance = ourCityPtr->distance;
+    traveltype ourCityTravelType = ourCityPtr->previousTravel;
+
+    //Р’Р«РќР•РЎРўР РЎРћР”Р•Р Р–РРњРћР• FOR Р’ РћРўР”Р•Р›Р¬РќРЈР® Р¤РЈРќРљР¦РР®
+    for(auto &it : ourCityPtr->roads_to) {
+        string neighbourName = it.first;
+        auto neighbourPtr = it.second;
+
+        double apply_discount = (ourCityTravelType == traveltype :: railway) ? (this->applyDiscount) : (1);
+        double currentRoadPrice = this->roadsPrice[ourCityName][neighbourName];
+
+        double candidate1 = ourCityDistance + currentRoadPrice * apply_discount;
+        double candidate2 = it.second->distance;
+
+        neighbourPtr->distance = min(candidate1, candidate2);
+    }
+    for(auto &it : ourCityPtr->railways_to) {
+        string neighbourName = it.first;
+        auto neighbourPtr = it.second;
+
+        double apply_discount = (ourCityTravelType == traveltype :: railway) ? 1 : (this->applyDiscount);
+        double currentRoadPrice = this->roadsPrice[ourCityName][neighbourName];
+
+        double candidate1 = ourCityDistance + currentRoadPrice * apply_discount;
+        double candidate2 = it.second->distance;
+
+        neighbourPtr->distance = min(candidate1, candidate2);
+    }
+
+    ourCityPtr->current_color = color :: black;
+}
+
+template <class type, class E>
+shared_ptr <city<type>>  CountryGraph <type, E> :: findMinDistanceCity() {
+    double min = numeric_limits <double> :: max();
+    shared_ptr <city<type>> answer = nullptr;
+    for(auto& it : cityList) {
+        if(it->current_color == (color :: white) && (it->distance) < min) {
+            answer = it;
+            min = it->distance;
+        }
+    }
+    return answer;
+}
+//*******************************************IMPLEMENTATION COUNTRY END***************************************//
+//*******************************************TRANSPORT END****************************************************//
 #endif
