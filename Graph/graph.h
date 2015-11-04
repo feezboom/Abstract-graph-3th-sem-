@@ -52,7 +52,7 @@ template <class type>
 class vertex{
     template <class Type, class Edge> friend class graph_list;
     template <class Type> friend class time_out_comparator;
-    template <class Type> friend class city;
+    template <class Type> friend class City;
     template <class Type, class Edge> friend class CountryGraph;
 private:
     unordered_map <string, shared_ptr <vertex <type>>> ways_to;
@@ -417,33 +417,33 @@ enum class Travel {
 
 //*******************************************HEADER CITY******************************************************//
 template <class type>
-class city : public vertex<type> {
+class City : private vertex<type> {
 private:
     template <class V, class U>
     friend class CountryGraph;
 
-    unordered_map <string, shared_ptr <city <type>>> roads_to;
-    unordered_map <string, shared_ptr <city <type>>> roads_from;
+    unordered_map <string, shared_ptr <City <type>>> roads_to;
+    unordered_map <string, shared_ptr <City <type>>> roads_from;
 
-    unordered_map <string, shared_ptr <city <type>>> railways_to;
-    unordered_map <string, shared_ptr <city <type>>> railways_from;
+    unordered_map <string, shared_ptr <City <type>>> railways_to;
+    unordered_map <string, shared_ptr <City <type>>> railways_from;
 
     Travel previousTravel;
 
-    void addRoadTo(string name, shared_ptr <city<type>> pointer);
-    void addRoadFrom(string name, shared_ptr <city<type>> pointer);
-    void addRailwayTo(string name, shared_ptr <city<type>> pointer);
-    void addRailwayFrom(string name, shared_ptr <city<type>> pointer);
+    void addRoadTo(string name, shared_ptr <City<type>> pointer);
+    void addRoadFrom(string name, shared_ptr <City<type>> pointer);
+    void addRailwayTo(string name, shared_ptr <City<type>> pointer);
+    void addRailwayFrom(string name, shared_ptr <City<type>> pointer);
 public:
-    city();
-    city(const string& name);
+    City();
+    City(const string& name);
     void printCity();
     void printRoads();
     void printRailways();
 };
 //*******************************************IMPLEMENTATION CITY**********************************************//
 template <class type>
-city <type> :: city() {
+City <type> :: City() {
     this->name = "noname";
     this->data = 0;
     this->current_color = color :: white;
@@ -453,7 +453,7 @@ city <type> :: city() {
 }
 
 template <class type>
-city <type> :: city(const string &name) {
+City <type> :: City(const string &name) {
     this->name = name;
     this->data = 0;
     this->current_color = color :: white;
@@ -463,31 +463,31 @@ city <type> :: city(const string &name) {
 }
 
 template <class type>
-void city <type> :: addRoadTo(string name, shared_ptr <city<type>> pointer) {
-    this->roads_to[name] = shared_ptr <city<type>>(pointer);
+void City <type> :: addRoadTo(string name, shared_ptr <City<type>> pointer) {
+    this->roads_to[name] = shared_ptr <City<type>>(pointer);
     return;
 }
 
 template <class type>
-void city <type> :: addRoadFrom(string name, shared_ptr <city<type>> pointer) {
-    this->roads_from[name] = shared_ptr <city<type>>(pointer);
+void City <type> :: addRoadFrom(string name, shared_ptr <City<type>> pointer) {
+    this->roads_from[name] = shared_ptr <City<type>>(pointer);
     return;
 }
 
 template <class type>
-void city <type> :: addRailwayTo(string name, shared_ptr <city<type>> pointer) {
-    this->railways_to[name] = shared_ptr <city<type>>(pointer);
+void City <type> :: addRailwayTo(string name, shared_ptr <City<type>> pointer) {
+    this->railways_to[name] = shared_ptr <City<type>>(pointer);
     return;
 }
 
 template <class type>
-void city <type> :: addRailwayFrom(string name, shared_ptr <city<type>> pointer) {
-    this->railways_from[name] = shared_ptr <city<type>>(pointer);
+void City <type> :: addRailwayFrom(string name, shared_ptr <City<type>> pointer) {
+    this->railways_from[name] = shared_ptr <City<type>>(pointer);
     return;
 }
 
 template <class type>
-void city <type> :: printCity() {
+void City <type> :: printCity() {
     cout << "City " << this->name << endl;
     cout << "Roads to :"; this->printRoads();
     cout << "Railways to : "; this->printRailways();
@@ -495,14 +495,14 @@ void city <type> :: printCity() {
 }
 
 template <class type>
-void city <type> :: printRailways() {
+void City <type> :: printRailways() {
     for(const auto &railway : railways_to) {
         cout << railway.first << " ";
     }
 }
 
 template <class type>
-void city <type> :: printRoads() {
+void City <type> :: printRoads() {
     for(const auto &road : roads_to) {
         cout << road.first << " ";
     }
@@ -517,19 +517,20 @@ void city <type> :: printRoads() {
 
 //*******************************************HEADER COUNTRY***************************************************//
 template <class type, class E>
-class CountryGraph : public graph_list <type, E> {
+class CountryGraph : private graph_list <type, E> {
 private:
     const size_t discount = 20; //Our discount when we change type of transport in percents
     const double applyDiscount = 1 - (double)discount/100;
 
-    list <shared_ptr <city <type>>> cityList;
+    list <shared_ptr <City <type>>> cityList;
     map <string, map <string, double>> roadsPrice;
     map <string, map <string, double>> railwaysPrice;
 
     void whitewashAll();
+    void makeDistancesInfinite();
     bool areAllBlack();
     bool cityInCountry(const string& name);
-    shared_ptr <city<type>> getPtr(const string& name);
+    shared_ptr <City<type>> getPtr(const string& name);
 
 public:
     void insertCity(const string &cityName);
@@ -538,11 +539,18 @@ public:
     void addRailway(const string &city1, const string &city2, double price);
     double findTheCheapestWay(const string &start, const string &finish);
     void theCheapesWayUpdate();
-    shared_ptr <city<type>> findMinDistanceCity();
+    shared_ptr <City<type>> findMinDistanceCity();
     void processing();//searchingTheCheapestWay
     void printCountry();
 };
 //*******************************************IMPLEMENTATION COUNTRY*******************************************//
+template <class type, class E>
+void CountryGraph <type, E> :: makeDistancesInfinite() {
+    for(auto &it : this->cityList) {
+        it->distance = numeric_limits <double> :: max();
+    }
+}
+
 template <class type, class E>
 void CountryGraph <type, E> :: printCountry() {
     for(const auto &city : this->cityList) {
@@ -577,7 +585,7 @@ void CountryGraph <type, E> :: whitewashAll() {
 }
 
 template <class type, class E>
-shared_ptr <city<type>> CountryGraph <type, E> :: getPtr(const string &name) {
+shared_ptr <City<type>> CountryGraph <type, E> :: getPtr(const string &name) {
     for(const auto &it : cityList) {
         if(it->name == name)
             return it;
@@ -588,7 +596,7 @@ shared_ptr <city<type>> CountryGraph <type, E> :: getPtr(const string &name) {
 template <class type, class E>
 void CountryGraph <type, E> :: insertCity(const string &cityName) {
     if(!cityInCountry(cityName)) {
-        auto ptr = make_shared <city<type>>(cityName);
+        auto ptr = make_shared <City<type>>(cityName);
         cityList.push_back(ptr);
     }
 }
@@ -698,9 +706,9 @@ void CountryGraph <type, E> :: processing() {
 }
 
 template <class type, class E>
-shared_ptr <city<type>>  CountryGraph <type, E> :: findMinDistanceCity() {
+shared_ptr <City<type>>  CountryGraph <type, E> :: findMinDistanceCity() {
     double min = numeric_limits <double> :: max();
-    shared_ptr <city<type>> answer = nullptr;
+    shared_ptr <City<type>> answer = nullptr;
     for(auto& it : cityList) {
         if(it->current_color == (color :: white) && (it->distance) < min) {
             answer = it;

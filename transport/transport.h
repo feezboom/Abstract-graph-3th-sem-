@@ -31,7 +31,9 @@ double solveTransportTask(vector <string> cities, vector <way> ways) {
     }
     //It was only filling
 
-    //Then we're going to ???
+    //Then we're going to do ... what???
+
+    cout << "The cheapest way is " << ourGraph.findTheCheapestWay("second", "first") << endl;
 
     ourGraph.printCountry();
 
