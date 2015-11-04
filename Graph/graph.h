@@ -410,7 +410,7 @@ public:
 };
 
 //*******************************************TRANSPORT BEGIN**************************************************//
-enum class traveltype {
+enum class Travel {
     road, railway, bus, train, car, plane, ship, byFoot, nohow
 };
 
@@ -419,13 +419,16 @@ enum class traveltype {
 template <class type>
 class city : public vertex<type> {
 private:
+    template <class V, class U>
+    friend class CountryGraph;
+
     unordered_map <string, shared_ptr <city <type>>> roads_to;
     unordered_map <string, shared_ptr <city <type>>> roads_from;
 
     unordered_map <string, shared_ptr <city <type>>> railways_to;
     unordered_map <string, shared_ptr <city <type>>> railways_from;
 
-    traveltype previousTravel;
+    Travel previousTravel;
 
     void addRoadTo(string name, shared_ptr <city<type>> pointer);
     void addRoadFrom(string name, shared_ptr <city<type>> pointer);
@@ -434,6 +437,9 @@ private:
 public:
     city();
     city(const string& name);
+    void printCity();
+    void printRoads();
+    void printRailways();
 };
 //*******************************************IMPLEMENTATION CITY**********************************************//
 template <class type>
@@ -441,7 +447,7 @@ city <type> :: city() {
     this->name = "noname";
     this->data = 0;
     this->current_color = color :: white;
-    this->previousTravel = traveltype :: nohow;
+    this->previousTravel = Travel :: nohow;
     this->time_in = -1;
     this->time_out = -1;
 }
@@ -451,7 +457,7 @@ city <type> :: city(const string &name) {
     this->name = name;
     this->data = 0;
     this->current_color = color :: white;
-    this->previousTravel = traveltype :: nohow;
+    this->previousTravel = Travel :: nohow;
     this->time_in = -1;
     this->time_out = -1;
 }
@@ -479,6 +485,30 @@ void city <type> :: addRailwayFrom(string name, shared_ptr <city<type>> pointer)
     this->railways_from[name] = shared_ptr <city<type>>(pointer);
     return;
 }
+
+template <class type>
+void city <type> :: printCity() {
+    cout << "City " << this->name << endl;
+    cout << "Roads to :"; this->printRoads();
+    cout << "Railways to : "; this->printRailways();
+
+}
+
+template <class type>
+void city <type> :: printRailways() {
+    for(const auto &railway : railways_to) {
+        cout << railway.first << " ";
+    }
+}
+
+template <class type>
+void city <type> :: printRoads() {
+    for(const auto &road : roads_to) {
+        cout << road.first << " ";
+    }
+    cout << endl;
+}
+
 //*******************************************IMPLEMENTATION CITY END******************************************//
 
 
@@ -499,7 +529,7 @@ private:
     void whitewashAll();
     bool areAllBlack();
     bool cityInCountry(const string& name);
-    shared_ptr <city<type>> get_city_ptr(const string& name);
+    shared_ptr <city<type>> getPtr(const string& name);
 
 public:
     void insertCity(const string &cityName);
@@ -509,9 +539,18 @@ public:
     double findTheCheapestWay(const string &start, const string &finish);
     void theCheapesWayUpdate();
     shared_ptr <city<type>> findMinDistanceCity();
-    void processing();
+    void processing();//searchingTheCheapestWay
+    void printCountry();
 };
 //*******************************************IMPLEMENTATION COUNTRY*******************************************//
+template <class type, class E>
+void CountryGraph <type, E> :: printCountry() {
+    for(const auto &city : this->cityList) {
+        city->printCity();
+        cout << endl << endl;
+    }
+}
+
 template <class type, class E>
 bool CountryGraph <type, E> :: cityInCountry(const string &name) {
     for (const auto& it : cityList) {
@@ -538,7 +577,7 @@ void CountryGraph <type, E> :: whitewashAll() {
 }
 
 template <class type, class E>
-shared_ptr <city<type>> CountryGraph <type, E> :: get_city_ptr(const string &name) {
+shared_ptr <city<type>> CountryGraph <type, E> :: getPtr(const string &name) {
     for(const auto &it : cityList) {
         if(it->name == name)
             return it;
@@ -567,18 +606,18 @@ void CountryGraph <type, E> :: addRoad(const string& city1, const string& city2,
     auto secondCity = this->getPtr(city2);
 
     if(firstCity == nullptr)
-        throw "city " + city1 + "does not exist";
+        throw "city " + city1 + " does not exist(road insertion)";
     if(secondCity == nullptr)
-        throw "city " + city2 + "does not exist";
+        throw "city " + city2 + " does not exist(road insertion)";
 
     roadsPrice[city1][city2] = price;
     roadsPrice[city2][city1] = price;
 
-    firstCity->add_road_to(city2);
-    firstCity->add_road_from(city2);
+    firstCity->addRoadTo(city2, secondCity);
+    firstCity->addRoadFrom(city2, secondCity);
 
-    secondCity->add_road_to(city1);
-    secondCity->add_road_from(city1);
+    secondCity->addRoadTo(city1, firstCity);
+    secondCity->addRoadFrom(city1, firstCity);
 //success
 }
 
@@ -588,18 +627,18 @@ void CountryGraph <type, E> :: addRailway(const string &city1, const string &cit
     auto secondCity = this->getPtr(city2);
 
     if(firstCity == nullptr)
-        throw "city " + city1 + "does not exist";
+        throw "city " + city1 + " does not exist(railway insertion)";
     if(secondCity == nullptr)
-        throw "city " + city2 + "does not exist";
+        throw "city " + city2 + " does not exist(railway insertion)";
 
     railwaysPrice[city1][city2] = price;
     railwaysPrice[city2][city1] = price;
 
-    firstCity->add_railway_to(city2);
-    firstCity->add_railway_from(city2);
+    firstCity->addRailwayTo(city2, secondCity);
+    firstCity->addRailwayFrom(city2, secondCity);
 
-    secondCity->add_railway_to(city1);
-    secondCity->add_railway_from(city1);
+    secondCity->addRailwayTo(city1, firstCity);
+    secondCity->addRailwayFrom(city1, firstCity);
 }
 
 template <class type, class E>
@@ -610,7 +649,7 @@ double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const s
         throw "city" + finish + "does not exist";
 
     this->makeDistancesInfinite();
-    this->get_city_ptr(start)->distance = 0;
+    this->getPtr(start)->distance = 0;
 
     this->whitewashAll();
 
@@ -618,7 +657,7 @@ double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const s
         this->processing();
     }
 
-    auto finishPtr = get_city_ptr(finish);
+    auto finishPtr = getPtr(finish);
     return finishPtr->distance;
 }
 
@@ -627,14 +666,14 @@ void CountryGraph <type, E> :: processing() {
     auto ourCityPtr = this->findMinDistanceCity();
     string ourCityName = ourCityPtr->name;
     double ourCityDistance = ourCityPtr->distance;
-    traveltype ourCityTravelType = ourCityPtr->previousTravel;
+    Travel ourCityTravelType = ourCityPtr->previousTravel;
 
     //ВЫНЕСТИ СОДЕРЖИМОЕ FOR В ОТДЕЛЬНУЮ ФУНКЦИЮ
     for(auto &it : ourCityPtr->roads_to) {
         string neighbourName = it.first;
         auto neighbourPtr = it.second;
 
-        double apply_discount = (ourCityTravelType == traveltype :: railway) ? (this->applyDiscount) : (1);
+        double apply_discount = (ourCityTravelType == Travel :: road) ? (this->applyDiscount) : (1);
         double currentRoadPrice = this->roadsPrice[ourCityName][neighbourName];
 
         double candidate1 = ourCityDistance + currentRoadPrice * apply_discount;
@@ -646,7 +685,7 @@ void CountryGraph <type, E> :: processing() {
         string neighbourName = it.first;
         auto neighbourPtr = it.second;
 
-        double apply_discount = (ourCityTravelType == traveltype :: railway) ? 1 : (this->applyDiscount);
+        double apply_discount = (ourCityTravelType == Travel :: railway) ? 1 : (this->applyDiscount);
         double currentRoadPrice = this->roadsPrice[ourCityName][neighbourName];
 
         double candidate1 = ourCityDistance + currentRoadPrice * apply_discount;
