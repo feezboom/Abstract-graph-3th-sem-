@@ -1,6 +1,7 @@
 #ifndef _TRANSPORT_H_
 #define _TRANSPORT_H_
 
+#include <string>
 #include "../Graph/graph.h"
 
 struct way {
