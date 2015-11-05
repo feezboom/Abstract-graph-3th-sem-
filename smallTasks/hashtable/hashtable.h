@@ -173,6 +173,33 @@ Value Hashtable <Key, Value> :: find(Key key) {
     cout << "Required element was not found. Maybe you made a typo?" << endl;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 template <typename Key, typename Value>
 class Hashtable <Key, Value> :: Iterator {
 private:
@@ -190,6 +217,9 @@ public:
     }
     Iterator(std::nullptr_t var) {
         this.element = var;
+    }
+    Iterator operator=(Iterator it) {
+        this->element = it.getNode();
     }
 
     Iterator operator++() {
