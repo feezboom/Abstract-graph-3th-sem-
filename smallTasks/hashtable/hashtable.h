@@ -7,10 +7,7 @@ using namespace std;
 
 template <typename Key, typename Value> class Hashtable;
 
-template <typename Key>
-static int hashFoo(Key key, int size) {
-    return key % size;
-}
+
 template <typename Key, typename Value>
 struct node {
     node<Key, Value>* next;
@@ -43,13 +40,12 @@ public:
     void remove(Key key);
     void clean();
     void print();
-
+/*
     Iterator begin() {
         node<Key, Value>* iter = nullptr;
         int i = 0;
         for(int i = 0; i < size; ++i) {
             iter = data[i];
-            cout << "BEE HERE" << endl;
             if (iter != nullptr)
                 return Iterator(iter);
         }
@@ -65,113 +61,18 @@ public:
         }
         return Iterator(iter);
     }
+*/
 
     ~Hashtable();
 };
 
-template <typename Key, typename Value>
-void Hashtable<Key, Value> :: clean() {
-    for(Iterator it = begin(); it != nullptr; ++it) {
-        auto q = it.getNode();
-        cout << "PRINTITNGNODES: ";
-        while(q != nullptr) {
-            cout << q->value << "->";
-            q = q->next;
-        }
-        cout << "nullptr" << endl;
+template <Value>
+class hashIterator {
+private:
 
-        delete it.getNode();
-    }
-}
+public:
 
-template <typename Key, typename Value>
-void Hashtable <Key, Value> :: print() {
-    cout << "You called printing hashtable. Now we're starting" << endl;
-    cout << "Printing format ${hash} -> {value} --> {value} --> ..." << endl;
-    for (int i = 0; i < size; ++i) {
-        cout << i << "-->>";
-        node<Key, Value>* iter = data[i];
-        while(iter != nullptr) {
-            cout << "{" << iter->value << "}" << "-->";
-            iter = iter->next;
-        }
-        cout << "nullptr" << endl;
-
-    }
-}
-
-template <typename Key, typename Value>
-void Hashtable <Key, Value> :: insert(Key key, Value value) {
-    int ourHash = hashFoo(key, size);
-    node<Key, Value>* element = new node<Key, Value>;
-
-    element->table = this;
-    element->value = value;
-    element->key = key;
-    element->next = data[ourHash];
-    element->prev = nullptr;
-
-
-
-    if (data[ourHash] != nullptr)
-        data[ourHash]->prev = element;
-    data[ourHash] = element;
-}
-
-template <typename Key, typename Value>
-void Hashtable <Key, Value> :: remove(Key key) {
-    int ourHash = hashFoo(key, size);
-
-    node<Key, Value>* iter = data[ourHash];
-    while(iter != nullptr) {
-        if (iter->key == key) {
-            if (iter->next != nullptr)
-                iter->next->prev = iter->prev;
-
-            if (iter->prev != nullptr)
-                iter->prev->next = iter->next;
-            else
-                data[ourHash] = iter->next;
-
-            delete iter;
-            cout << "Succesfully deleted" << endl;
-            return;
-        }
-    }
-    cout << "There is no such element in hashtable. Cannot delete it." << endl;
-}
-
-template <typename Key, typename Value>
-Hashtable <Key, Value> :: Hashtable(int size) {
-    if (size == 0)
-        throw "Hash table can not be zero sized.";
-    //Table size
-    this->size = size;
-
-    //Table data
-    data = new node<Key, Value>*[size];
-
-    for(int i = 0; i < size; ++i) {
-        data[i] = nullptr;
-    }
-}
-
-template <typename Key, typename Value>
-Hashtable <Key, Value> :: ~Hashtable() {
-
-}
-
-template <typename Key, typename Value>
-Value Hashtable <Key, Value> :: find(Key key) {
-    int ourHash = hashFoo(key);
-    node<Key, Value>* iter = data[ourHash];
-    while(iter != nullptr) {
-        if (iter->key == key) {
-            return iter->value;
-        }
-    }
-    cout << "Required element was not found. Maybe you made a typo?" << endl;
-}
+};
 
 
 
@@ -192,36 +93,18 @@ Value Hashtable <Key, Value> :: find(Key key) {
 
 
 
-
-
-
-
-
-
-
-
+/*
 template <typename Key, typename Value>
 class Hashtable <Key, Value> :: Iterator {
 private:
     friend class Hashtable <Key, Value>;
     node<Key, Value>* element;
-    node<Key, Value>* getNode() {
-        return element;
-    }
+    node<Key, Value>* getNode();
 public:
-    Iterator() {
-        element = nullptr;
-    }
-    Iterator(node<Key, Value>* &element) {
-        this->element = element;
-    }
-    Iterator(std::nullptr_t var) {
-        this.element = var;
-    }
-    Iterator operator=(Iterator it) {
-        this->element = it.getNode();
-    }
-
+    Iterator();
+    Iterator(node<Key, Value>* &element);
+    Iterator(std::nullptr_t var);
+    Iterator operator=(Iterator it);
     Iterator operator++() {
         int size = ((Hashtable<Key, Value>*)(element->table))->size;
         node<Key, Value>** data = ((Hashtable<Key, Value>*)(element->table))->data;
@@ -268,11 +151,9 @@ public:
     Value operator*() {
         return element->value;
     }
-
-
     ~Iterator() {}
 };
+*/
 
-
-
+#include "hashtable.hpp"
 #endif
