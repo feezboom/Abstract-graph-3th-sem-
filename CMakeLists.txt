@@ -17,12 +17,14 @@ include_directories(2sat)
 include_directories(graph)
 include_directories(transport)
 include_directories(Graph)
+include_directories(smallTasks/hashtable)
 
 #Where to search and build independent subprojects
 add_subdirectory(jsoncpp)
 add_subdirectory(2sat)
 add_subdirectory(Graph)
 add_subdirectory(transport)
+add_subdirectory(smallTasks/hashtable)
 
 set(sources main_test.cpp catch_inc.cpp)
 set(headers catch.hpp)
