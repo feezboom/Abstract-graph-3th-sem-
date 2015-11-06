@@ -12,16 +12,16 @@ class A {
 	int* b;
 	double* c;
 public:
-	A(int x, int y) {
-		if (x <= 0/*some condition*/)
-			throw string("X can not be below or equal zero");
+	A() {
 		b = new int[100];
-		if (y <= 0/*some condition*/) {
-			delete[] b;
-			throw string("Y can not be below or equal zero");
-		}
-		c = new double[100];
+		if (b == nullptr)
+			throw "error allocating";
 
+		c = new double[100];
+		if (c == nullptr) {
+			delete b;
+			throw "error allocating";
+		}
 		cout << "Constructor succeded" << endl;
 	}
 	~A() {

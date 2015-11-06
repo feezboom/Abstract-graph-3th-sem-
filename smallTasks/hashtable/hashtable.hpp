@@ -1,5 +1,5 @@
-template <typename Key>
-static int hashFoo(Key key, int size) {
+template <typename Key, typename Value>
+int Hashtable <Key, Value> :: hashFoo(Key key) {
     return key % size;
 }
 
@@ -23,7 +23,7 @@ void Hashtable <Key, Value> :: print() {
 
 template <typename Key, typename Value>
 void Hashtable <Key, Value> :: remove(Key key) {
-    int ourHash = hashFoo(key, size);
+    int ourHash = hashFoo(key);
 
     node<Key, Value>* iter = data[ourHash];
     while(iter != nullptr) {
@@ -77,10 +77,9 @@ Value Hashtable <Key, Value> :: find(Key key) {
 
 template <typename Key, typename Value>
 void Hashtable <Key, Value> :: insert(Key key, Value value) {
-    int ourHash = hashFoo(key, size);
+    int ourHash = hashFoo(key);
     node<Key, Value>* element = new node<Key, Value>;
 
-    element->table = this;
     element->value = value;
     element->key = key;
     element->next = data[ourHash];
@@ -103,7 +102,6 @@ void Hashtable<Key, Value> :: clean() {
 
 //CLASS ITERATOR
 /*
-
 template <typename Key, typename Value>
 node<Key, Value>* Hashtable <Key, Value> :: Iterator :: getNode() {
     return element;

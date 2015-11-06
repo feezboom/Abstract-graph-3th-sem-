@@ -1,7 +1,8 @@
 cmake_minimum_required (VERSION 3.0)
 project (ninja_turtles)
 
-ADD_DEFINITIONS("-std=c++11")
+ADD_DEFINITIONS("-std=c++11 -g")
+
 
 #set(CMAKE_VERBOSE_MAKEFILE on)
 #set(CMAKE_BUILD_TYPE Debug)
