@@ -66,13 +66,6 @@ public:
     ~Hashtable();
 };
 
-template <Value>
-class hashIterator {
-private:
-
-public:
-
-};
 
 
 
