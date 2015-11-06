@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.1)
 project(transport)
 
 set(CMAKE_CXX_STANDART 11)
-ADD_DEFINITIONS("-std=c++11")
 
 set(HEADERS transport.h)
 set(SOURCE_LIB transport.cpp)
