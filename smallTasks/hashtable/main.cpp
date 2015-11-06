@@ -29,7 +29,7 @@ int main() {
     t.insert(9, 999);
 
     t.print();
-
+	cout << endl << endl << endl;
     t.remove(7);
     t.clear();
 

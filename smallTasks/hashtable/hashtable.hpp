@@ -59,11 +59,6 @@ Hashtable <Key, Value> :: Hashtable(int size) {
 }
 
 template <typename Key, typename Value>
-Hashtable <Key, Value> :: ~Hashtable() {
-
-}
-
-template <typename Key, typename Value>
 Value Hashtable <Key, Value> :: find(Key key) {
     int ourHash = hashFoo(key);
     node<Key, Value>* iter = data[ourHash];
