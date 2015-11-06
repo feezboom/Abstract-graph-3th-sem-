@@ -32,8 +32,8 @@ public:
 	void clean();
 	void print();
 
-	auto& begin();
-	auto& end();
+	Iterator& begin();
+	Iterator& end();
 };
 
 template <typename Key, typename Value>

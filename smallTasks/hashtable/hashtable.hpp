@@ -95,7 +95,7 @@ void Hashtable<Key, Value> :: clean() {
 }
 
 template <typename Key, typename Value>
-auto& Hashtable <Key, Value> ::begin() {
+typename Hashtable<Key, Value> :: Iterator& Hashtable <Key, Value> :: begin() {
 	Hashtable <Key, Value> ::Iterator toReturn;
 	node<Key, Value>* element = nullptr;
 	int i = 0;
@@ -116,7 +116,7 @@ auto& Hashtable <Key, Value> ::begin() {
 }
 
 template <typename Key, typename Value>
-auto& Hashtable <Key, Value> ::end() {
+typename Hashtable<Key, Value> :: Iterator& Hashtable <Key, Value> ::end() {
 	Hashtable<Key, Value> ::Iterator toReturn;
 	toReturn.element = nullptr;
 	toReturn.table = this;

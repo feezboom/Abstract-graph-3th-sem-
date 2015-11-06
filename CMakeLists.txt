@@ -1,14 +1,13 @@
 cmake_minimum_required (VERSION 3.0)
 project (ninja_turtles)
 
-ADD_DEFINITIONS("-std=c++11 -g")
-
+ADD_DEFINITIONS("-g")
 
 #set(CMAKE_VERBOSE_MAKEFILE on)
 #set(CMAKE_BUILD_TYPE Debug)
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -save-temps")
 
-set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
@@ -34,5 +33,7 @@ set(headers catch.hpp)
 link_directories("${CMAKE_BINARY_DIR}/jsoncpp/lib")
 
 add_executable(tests ${sources} ${headers})
-add_dependencies(tests jsoncpp_lib )
-target_link_libraries(tests jsoncpp)
+add_dependencies(tests jsoncpp_lib)
+add_dependencies(2sat_exe jsoncpp_lib)
+add_dependencies(tests 2sat)
+target_link_libraries(tests jsoncpp 2sat)
