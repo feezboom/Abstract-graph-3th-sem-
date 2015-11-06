@@ -31,7 +31,6 @@ int main() {
     t.print();
 	cout << endl << endl << endl;
     t.remove(7);
-    t.clear();
 
 	return 0;
 }

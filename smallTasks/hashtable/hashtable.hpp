@@ -1,9 +1,8 @@
+//CLASS HASHTABLE
 template <typename Key, typename Value>
 int Hashtable <Key, Value> :: hashFoo(Key key) {
     return key % size;
 }
-
-//CLASS HASHTABLE
 
 template <typename Key, typename Value>
 void Hashtable <Key, Value> :: print() {
@@ -95,26 +94,87 @@ void Hashtable<Key, Value> :: clean() {
     }
 }
 
+template <typename Key, typename Value>
+auto& Hashtable <Key, Value> ::begin() {
+	Hashtable <Key, Value> ::Iterator toReturn;
+	node<Key, Value>* element = nullptr;
+	int i = 0;
+	while (element == nullptr && i < size) {
+		element = data[i];
+		i++;
+	}
+	if (data[i] == nullptr) {
+		//Return end() Iterator
+		return end();
+	}
+	else {
+		toReturn.element = element;
+		toReturn.table = this;
+		toReturn.hash = hashFoo(element->key);
+		return toReturn;
+	}
+}
+
+template <typename Key, typename Value>
+auto& Hashtable <Key, Value> ::end() {
+	Hashtable<Key, Value> ::Iterator toReturn;
+	toReturn.element = nullptr;
+	toReturn.table = this;
+	return toReturn;
+}
+
 //CLASS ITERATOR
-/*
 template <typename Key, typename Value>
-node<Key, Value>* Hashtable <Key, Value> :: Iterator :: getNode() {
-    return element;
+typename Hashtable<Key, Value> ::Iterator& Hashtable <Key, Value> ::Iterator :: operator++() {
+	if (element == nullptr) {
+		return table->end();
+	}
+	if (element->next != nullptr) {
+		//If next isn't nullptr
+		*this = Iterator(element->next, table);
+		return *this;
+	}
+	else {
+		//If next is nullptr
+		while (1) {
+			hash++;
+			if (hash == table->size) {
+				*this = table->end();
+				return *this;
+			}
+			if (table->data[hash] != nullptr)
+				break;
+		}
+		//If it wasn't last element it the table, but it was last in the list, return first in the next not empty list.
+		Iterator it(table->data[hash], table);
+		*this = it;
+		cout << it.element->key << endl;
+
+		return *this;
+	}
 }
 
 template <typename Key, typename Value>
-Hashtable <Key, Value> :: Iterator :: Iterator() {
-       element = nullptr;
-   }
-
-template <typename Key, typename Value>
-Hashtable <Key, Value> :: Iterator :: Iterator(node<Key, Value>* &element) {
-    this->element = element;
+Hashtable<Key, Value> ::Iterator::Iterator(node<Key, Value>* element, Hashtable<Key, Value>* table) {
+	this->element = element;
+	this->table = table;
+	if (table != nullptr)
+		hash = table->hashFoo(element->key);
 }
 
 template <typename Key, typename Value>
-Hashtable <Key, Value> :: Iterator :: Iterator(std::nullptr_t var) {
-    this.element = var;
+Hashtable<Key, Value> ::Iterator::Iterator() {
+	this->element = nullptr;
+	this->table = nullptr;
+	this->hash = -1;
 }
 
-*/
+template <typename Key, typename Value>
+Value Hashtable<Key, Value> ::Iterator::operator*() {
+	return this->element->value;
+}
+
+template <typename Key, typename Value>
+bool Hashtable<Key, Value> ::Iterator::operator!=(Iterator toCompare) {
+	return (this->element != toCompare.element || this->table != toCompare.table || this->hash != toCompare.hash);
+};
