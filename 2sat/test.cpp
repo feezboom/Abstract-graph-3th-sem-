@@ -2,7 +2,12 @@
 
 int main() {
     std :: cout << "2Sat local test started and finished." << endl;
-    test2Sat("test0.json");
+    try {
+        test2Sat("test0.json");
+    }
+    catch (string i) {
+        std :: cout << "Error : " << i << std :: endl;
+    }
 
     return 0;
 }
