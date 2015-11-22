@@ -64,5 +64,7 @@ void findTest(string name, std :: ifstream& ifs) {
     if(!ifs)
         ifs.open("../ninja_turtles/2sat/tests/" + name, std::ifstream::in);
     if(!ifs)
+	ifs.open("../../2sat/tests/" + name, std::ifstream::in);
+    if(!ifs)
         throw "test file " + name + " was not found";
 }

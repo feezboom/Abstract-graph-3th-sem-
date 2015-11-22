@@ -9,8 +9,8 @@ ADD_DEFINITIONS("-g")
 
 set(CMAKE_CXX_STANDARD 14)
 
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
-SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 #Where to search headers
 include_directories(2sat)
@@ -18,6 +18,9 @@ include_directories(graph)
 include_directories(transport)
 include_directories(Graph)
 include_directories(smallTasks/hashtable)
+
+add_subdirectory(agraph)
+include_directories(${PROJECT_BINARY_DIR}/agraph)
 
 #Where to search and build independent subprojects
 add_subdirectory(jsoncpp)

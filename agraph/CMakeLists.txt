@@ -6,11 +6,14 @@ project (agraph)
 set(headers agraph.h)
 set(sources agraph.cpp)
 
+set(CMAKE_CXX_STANDARD 11)
+
 # добавляем директорию для поиска сгенерированного заголовочного файла
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # создаем разделяемую библиотеку
 add_library(agraph SHARED ${sources} ${headers})
+add_executable(little_test test.cpp agraph)
 
 # генерируем заголовочный файл с определениями для экспорта 
 generate_export_header(agraph)

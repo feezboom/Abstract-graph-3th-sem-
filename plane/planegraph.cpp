@@ -1,4 +1,4 @@
-#include "planegraph.h"
+#include "PlaneGraph.h"
 
 PlaneGraph::PlaneGraph()
 {

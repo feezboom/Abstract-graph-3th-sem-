@@ -2,4 +2,5 @@ HEADERS += \
     PlaneGraph.h
 
 SOURCES += \
-    planegraph.cpp
+    planegraph.cpp \
+    main.cpp
