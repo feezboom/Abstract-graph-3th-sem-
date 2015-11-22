@@ -472,28 +472,33 @@ public:
 //*******************************************LANDING GRAPH****************************************************//
 class LandingGraph {
 public:
-    struct cell {
-        bool airport;
-        int x, y, z;
-        cell(int x, int y, int z, bool airport = false) : x(x), y(y), z(z), airport(airport){}
-    };
+    LandingGraph(int sizes[], vector<vector<vector<int>>> land, int airportPosition[], int planePosition[]) {
+        xSize = sizes[0];
+        ySize = sizes[1];
+        zSize = sizes[2];
 
-    LandingGraph(vector<vector<vector<bool>>> land, int airportPosition[], int planePosition[]) {
-        this->land = land;
+        for(int x = 0; x < xSize; ++x)
+            for(int y = 0; y < ySize; ++y)
+                for(int z = 0; z < zSize; ++z)
+                    this->land[x][y][z] = land[x][y][z];
+
         for(int i = 0; i < 3; ++i) {
             airportPos[i] = airportPosition[i];
             planePos[i] = planePosition[i];
         }
     }
 
-    void insert_vertex(const string& name);
-    void add_edge(const string& from, const string& to, double weight = 0);
-    vector<vector<string>> Kosaraju();
-    void transpose();
+    void insert_vertex(const string& name) {}
+    void add_edge(const string& from, const string& to, double weight = 0) {}
+    vector<vector<string>> Kosaraju() {}
+    void transpose() {}
 
 private:
+    //Границы нужного пространства
     int xSize, ySize, zSize;
-    vector<vector<vector<bool>>> land;
+    //Как раз вектор высот земли
+    vector<vector<vector<int>>> land;
+    //Текущие позиции аэропорта и самолёта
     int planePos[3], airportPos[3];
 };
 

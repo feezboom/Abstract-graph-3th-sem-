@@ -7,6 +7,7 @@ set(headers agraph.h graphs.h)
 set(sources agraph.cpp graphs.cpp)
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_BUILD_TYPE Debug)
 
 # добавляем директорию для поиска сгенерированного заголовочного файла
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
