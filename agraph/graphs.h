@@ -478,9 +478,23 @@ public:
         cell(int x, int y, int z, bool airport = false) : x(x), y(y), z(z), airport(airport){}
     };
 
+    LandingGraph(vector<vector<vector<bool>>> land, int airportPosition[], int planePosition[]) {
+        this->land = land;
+        for(int i = 0; i < 3; ++i) {
+            airportPos[i] = airportPosition[i];
+            planePos[i] = planePosition[i];
+        }
+    }
+
+    void insert_vertex(const string& name);
+    void add_edge(const string& from, const string& to, double weight = 0);
+    vector<vector<string>> Kosaraju();
+    void transpose();
+
 private:
     int xSize, ySize, zSize;
-    vector<vector<vector<cell>>> space;
+    vector<vector<vector<bool>>> land;
+    int planePos[3], airportPos[3];
 };
 
 

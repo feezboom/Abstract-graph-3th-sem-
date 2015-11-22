@@ -47,6 +47,7 @@ class AGraph {
     template<typename U>
     U cast() const
     {
+
         if(typeid(U) != object->type_info())
             throw std::runtime_error("Bad graph cast");
         return static_cast<GraphModel<U>* >(object)->object;
