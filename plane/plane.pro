@@ -1,5 +1,5 @@
 HEADERS += \
-    planegraph.h
+    PlaneGraph.h
 
 SOURCES += \
     planegraph.cpp
