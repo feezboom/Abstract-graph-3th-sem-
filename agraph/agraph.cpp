@@ -30,4 +30,7 @@ AGraph* GraphFactory::makeGraph(string name){
     if(name == "transport") {
         return new AGraph(CountryGraph <int, int>());
     }
+    if(name == "landing") {
+
+    }
 }
