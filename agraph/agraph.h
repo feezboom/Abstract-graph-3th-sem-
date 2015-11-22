@@ -1,6 +1,3 @@
-#ifndef AGRAPH
-#define AGRAPH
-
 #include <string>
 #include <memory>
 #include <vector>
@@ -10,41 +7,36 @@
 
 using namespace std;
 
-/* 
-это реализация паттерна type erasure
-задача - скрыть объекты разных классов с общим интерфейсом за одним типом данных с тем же самым интерфейсом
-решение - поскольку мы не можем менять структуру классов (они могут быть сторонними компонентами),
-то мы используем обертку над каждым объектом, делегирующую ему вызовы методов. Все обертки наследуются от
-одного класса, определяющего интерфейс.
-*/
-
-/* 
-AGraph - обертка, скрывающая объекты за указателем.
-Контейнеры stl хранят объекты по значению, поэтому если размещать в них объекты GraphConcept напрямую,
-произойдет срезка. В данном случае она не особо нужна, так как в тестах можно использовать указатели.
-*/
-
-
 class AGraph {
 
 	/* GraphConcept - общий интерфейc обобщенного класса граф */
     struct GraphConcept {
-        virtual bool algorithm() = 0;
+
+        virtual void insert_vertex(const string& name) = 0;
+        virtual void add_edge(const string& from, const string& to, double weight = 0) = 0;
+        virtual void transpose() = 0;
+        virtual vector<vector<string>> getStrongComponents() = 0;
+
         virtual ~GraphConcept() {}
     };
-	/* 
-	GraphModel - реализация интерфейса на основе произвольного класса
-	При этом от класса требуется не явное соответсвие какому-либо интерфейсу,
-	а всего лишь наличие подходящих методов, иногда это называют неявной спецификацией. 
-	Например, bool algorithm() может вызывать X object.do_algorithm(), если определено
-	приведение типа T::operator bool() и т.п.
-	*/
+
     template<typename T>
     struct GraphModel : GraphConcept {
         GraphModel( const T& t ) : object( t ) {}
-        virtual bool algorithm() {
-            return object.do_algorithm();
+        virtual void insert_vertex(const string& name) {
+            return object.insert_vertex(name);
         }
+        virtual void add_edge(const string& from, const string& to, double weight = 0) {
+            return object.add_edge(from, to, weight);
+        }
+        virtual void transpose() {
+            return object.transpose();
+        }
+        virtual vector<vector<string>> getStrongComponents() {
+            return object.Kosaraju();
+        }
+
+
         virtual ~GraphModel() {}
     private:
         T object;
@@ -69,8 +61,17 @@ public:
     template<typename T>
     AGraph(const T& obj):object( new GraphModel<T>( obj ) ) {}
 
-    bool algorithm() {
-        return object->algorithm();
+    void insert_vertex(const string& name) {
+        return object->insert_vertex(name);
+    }
+    void add_edge(const string& from, const string& to, double weight = 0) {
+        return object->add_edge(from, to, weight);
+    }
+    void transpose() {
+        return object->transpose();
+    }
+    vector<vector<string>> getStrongComponents() {
+        return object->getStrongComponents();
     }
 };
 
@@ -89,4 +90,3 @@ private:
     GraphFactory(){}
 };
 
-#endif

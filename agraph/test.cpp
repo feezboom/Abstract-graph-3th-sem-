@@ -7,8 +7,6 @@
 int main() {
     std::cout << "Hello, agraph!" << std :: endl;
 
-    GraphFactory ::makeGraph()->algorithm();
-
 
     return 0;
 }

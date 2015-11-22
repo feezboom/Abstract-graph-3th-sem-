@@ -409,12 +409,12 @@ public:
 
 };
 
+
+
 //*******************************************TRANSPORT BEGIN**************************************************//
 enum class Travel {
     road, railway, bus, train, car, plane, ship, byFoot, nohow
 };
-
-
 //*******************************************HEADER CITY******************************************************//
 template <class type>
 class City : private vertex<type> {
