@@ -1,7 +1,11 @@
 #include "agraph.h"
-#include "graphs.h"
 #include <iostream>
 #include <typeinfo>
+
+#include "MainGraph.h"
+#include "TransportGraph.h"
+#include "LandingGraph.h"
+
 
 
 /* ваша реализация графа, таких реализаций может быть несколько, подходящих для разных случаев */
@@ -31,6 +35,6 @@ AGraph* GraphFactory::makeGraph(string name){
         return new AGraph(CountryGraph <int, int>());
     }
     if(name == "landing") {
-
+        return new AGraph(LandingGraph());
     }
 }

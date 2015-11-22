@@ -1,5 +1,5 @@
-#ifndef _GRAPHS_H_
-#define _GRAPHS_H_
+#ifndef _MAIN_GRAPH_H_
+#define _MAIN_GRAPH_H_
 
 #include <vector>
 #include <unordered_map>
@@ -14,6 +14,7 @@
 #include <exception>
 #include <stack>
 #include <queue>
+#include <exception>
 
 using namespace std;
 enum class color{ white, black, gray };
@@ -408,108 +409,5 @@ public:
 
 };
 //*******************************************MAIN GRAPH*******************************************************//
-
-
-//*******************************************TRANSPORT BEGIN**************************************************//
-enum class Travel {
-    road, railway, bus, train, car, plane, ship, byFoot, nohow
-};
-template <class type>
-class City : public vertex<type> {
-private:
-    template <class V, class U>
-    friend class CountryGraph;
-
-    unordered_map <string, shared_ptr <City <type>>> roads_to;
-    unordered_map <string, shared_ptr <City <type>>> roads_from;
-
-    unordered_map <string, shared_ptr <City <type>>> railways_to;
-    unordered_map <string, shared_ptr <City <type>>> railways_from;
-
-    Travel previousTravel;
-
-    void addRoadTo(string name, shared_ptr <City<type>> pointer);
-    void addRoadFrom(string name, shared_ptr <City<type>> pointer);
-    void addRailwayTo(string name, shared_ptr <City<type>> pointer);
-    void addRailwayFrom(string name, shared_ptr <City<type>> pointer);
-public:
-    City();
-    City(const string& name);
-    void printCity();
-    void printRoads();
-    void printRailways();
-};
-template <class type, class E>
-class CountryGraph : public graph_list <type, E> {
-private:
-    const size_t discount = 20; //Our discount when we change type of transport in percents
-    const double applyDiscount = 1 - (double)discount/100;
-
-    list <shared_ptr <City <type>>> cityList;
-    map <string, map <string, double>> roadsPrice;
-    map <string, map <string, double>> railwaysPrice;
-
-    void whitewashAll();
-    void makeDistancesInfinite();
-    bool areAllBlack();
-    bool cityInCountry(const string& name);
-    shared_ptr <City<type>> getPtr(const string& name);
-
-public:
-    void insertCity(const string &cityName);
-    void insertCities(const vector <string> &cities);
-    void addRoad(const string &city1, const string &city2, double price);
-    void addRailway(const string &city1, const string &city2, double price);
-    double findTheCheapestWay(const string &start, const string &finish);
-    void theCheapesWayUpdate();
-    shared_ptr <City<type>> findMinDistanceCity();
-    void processing();//searchingTheCheapestWay
-    void printCountry();
-};
-//*******************************************TRANSPORT END****************************************************//
-
-
-//*******************************************LANDING GRAPH****************************************************//
-class LandingGraph {
-public:
-    LandingGraph(int sizes[], vector<vector<vector<int>>> land, int airportPosition[], int planePosition[]) {
-        xSize = sizes[0];
-        ySize = sizes[1];
-        zSize = sizes[2];
-
-        for(int x = 0; x < xSize; ++x)
-            for(int y = 0; y < ySize; ++y)
-                for(int z = 0; z < zSize; ++z)
-                    this->land[x][y][z] = land[x][y][z];
-
-        for(int i = 0; i < 3; ++i) {
-            airportPos[i] = airportPosition[i];
-            planePos[i] = planePosition[i];
-        }
-    }
-
-    void insert_vertex(const string& name) {}
-    void add_edge(const string& from, const string& to, double weight = 0) {}
-    vector<vector<string>> Kosaraju() {}
-    void transpose() {}
-
-private:
-    //Границы нужного пространства
-    int xSize, ySize, zSize;
-    //Как раз вектор высот земли
-    vector<vector<vector<int>>> land;
-    //Текущие позиции аэропорта и самолёта
-    int planePos[3], airportPos[3];
-};
-
-
-
-
-
-
-
-
-
-
 
 #endif

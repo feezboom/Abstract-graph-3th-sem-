@@ -2,8 +2,8 @@
 #include <memory>
 #include <vector>
 #include "../jsoncpp/include/json/json.h"
-
 #include "agraph_export.h"
+
 
 using namespace std;
 
