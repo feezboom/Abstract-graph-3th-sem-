@@ -43,10 +43,6 @@ bool solve_2sat(vector <std::pair <Variable, Variable>> disjunkts) {
     }
 
     auto strongComponents = our2SatGraph.Kosaraju();
-//    our2SatGraph.print_graph();
-//    cout << "strongComponents are : " << endl;
-//    printStrongComponents(strongComponents);
-//    cout << "OK" << endl;
 
     for(const auto& it : strongComponents) {
         if (isProblem(it)) {
@@ -64,7 +60,46 @@ void findTest(string name, std :: ifstream& ifs) {
     if(!ifs)
         ifs.open("../ninja_turtles/2sat/tests/" + name, std::ifstream::in);
     if(!ifs)
-	ifs.open("../../2sat/tests/" + name, std::ifstream::in);
+        ifs.open("../../2sat/tests/" + name, std::ifstream::in);cout << "HELLO WORLD!\n";
     if(!ifs)
         throw "test file " + name + " was not found";
+}
+
+bool test2Sat(string testName) {
+    std::ifstream ifs;
+    Json::Value root;
+    Json::Reader reader;
+
+    findTest(testName, ifs);
+
+    bool res = reader.parse(ifs, root);
+    if (res == false) {
+        throw "mistake in json test file (" + testName + ")";
+    }
+
+    Json::Value g = root["2sat"];
+
+    vector <std::pair<Variable, Variable>> data;
+
+    for(int i = 0; i < g.size(); ++i){
+        Variable var1, var2;
+        Json::Value temp = g[i]["first"];
+
+        var1.label = temp["label"].asString();
+        var1.negative = temp["neg"].asBool();
+
+        temp = g[i]["second"];
+        var2.label = temp["label"].asString();
+        var2.negative = temp["neg"].asBool();
+
+        data.push_back(std::pair<Variable, Variable> (var1, var2));
+    }
+
+    bool answer = solve_2sat(data);
+    if(answer) {
+        cout << "test " + testName + " has at least one solution" << endl;
+    } else {
+        cout << "test " + testName + " hasn't got any solutions" << endl;
+    }
+    return answer;
 }
