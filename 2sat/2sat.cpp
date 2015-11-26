@@ -1,5 +1,6 @@
 #include "2sat.h"
 #include "../Graph/graph.h"
+#include <cstdlib>
 
 void makeNegative(string& label) {
     if (label.length() > 3 && label.substr(0, 3) == "not") {
@@ -54,6 +55,7 @@ bool solve_2sat(vector <std::pair <Variable, Variable>> disjunkts) {
 
 //Working with tests
 void findTest(string name, std :: ifstream& ifs) {
+
     ifs.open("../2sat/tests/" + name, std::ifstream::in);
     if(!ifs)
         ifs.open("../tests/" + name, std::ifstream::in);
@@ -61,6 +63,7 @@ void findTest(string name, std :: ifstream& ifs) {
         ifs.open("../ninja_turtles/2sat/tests/" + name, std::ifstream::in);
     if(!ifs)
         ifs.open("../../2sat/tests/" + name, std::ifstream::in);
+    if(!ifs)
         throw "test file " + name + " was not found";
 }
 
