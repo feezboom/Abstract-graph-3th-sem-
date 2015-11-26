@@ -1,8 +1,10 @@
+#ifndef _AGRAPH_H_
+#define _AGRAPH_H_
+
 #include <string>
 #include <memory>
 #include <vector>
 #include "../jsoncpp/include/json/json.h"
-
 #include "agraph_export.h"
 
 using namespace std;
@@ -47,6 +49,7 @@ class AGraph {
     template<typename U>
     U cast() const
     {
+
         if(typeid(U) != object->type_info())
             throw std::runtime_error("Bad graph cast");
         return static_cast<GraphModel<U>* >(object)->object;
@@ -83,10 +86,12 @@ class AGRAPH_EXPORT GraphFactory {
 public:
     static AGraph* makeGraph(Json::Value&);
     static AGraph* makeGraph();
-    static AGraph* makeGraph(string taskName);
+    static AGraph* makeGraph(string& name);
 
     virtual ~GraphFactory() = 0;
 private:
     GraphFactory(){}
 };
 
+
+#endif //_AGRAPH_H_

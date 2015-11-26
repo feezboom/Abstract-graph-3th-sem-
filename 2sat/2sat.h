@@ -29,11 +29,8 @@ void makeNegative(string& label);
 bool isProblem(vector <string> strongComponent);
 void printStrongComponents(vector <vector <string>> components);
 bool solve_2sat(vector <std::pair <Variable, Variable>> disjunkts);
-
 void findTest(string name, std :: ifstream& ifs);
 bool test2Sat(string testName);
 
-//Не могу вынести имплементацию test2Sat в 2sat.cpp
-//линкёр говорит что реализация библиотечных методов json не найдена
 
 #endif

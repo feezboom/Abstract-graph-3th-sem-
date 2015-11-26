@@ -8,6 +8,7 @@ ADD_DEFINITIONS("-g")
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -save-temps")
 
 set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_BUILD_TYPE Debug)
 
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
@@ -17,16 +18,19 @@ include_directories(2sat)
 include_directories(graph)
 include_directories(transport)
 include_directories(Graph)
+include_directories(salesman)
 include_directories(smallTasks/hashtable)
 
-add_subdirectory(agraph)
+
 include_directories(${PROJECT_BINARY_DIR}/agraph)
 
 #Where to search and build independent subprojects
+add_subdirectory(agraph)
 add_subdirectory(jsoncpp)
 add_subdirectory(2sat)
 add_subdirectory(Graph)
 add_subdirectory(transport)
+add_subdirectory(salesman)
 add_subdirectory(smallTasks/hashtable)
 
 set(sources main_test.cpp catch_inc.cpp)
@@ -38,5 +42,5 @@ link_directories("${CMAKE_BINARY_DIR}/jsoncpp/lib")
 add_executable(tests ${sources} ${headers})
 add_dependencies(tests jsoncpp_lib)
 add_dependencies(2sat_exe jsoncpp_lib)
-add_dependencies(tests 2sat)
-target_link_libraries(tests jsoncpp 2sat)
+add_dependencies(tests 2sat agraph)
+target_link_libraries(tests jsoncpp 2sat agraph)
