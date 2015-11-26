@@ -3,8 +3,8 @@ include(GenerateExportHeader)
 
 project (agraph)
 
-set(headers agraph.h TransportGraph.h MainGraph.h LandingGraph.h)
-set(sources agraph.cpp TransportGraph.cpp MainGraph.cpp LandingGraph.cpp)
+set(headers agraph.h TransportGraph.h MainGraph.h LandingGraph.h SalesmanGraph.h)
+set(sources agraph.cpp TransportGraph.cpp MainGraph.cpp LandingGraph.cpp SalesmanGraph.cpp)
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Debug)
