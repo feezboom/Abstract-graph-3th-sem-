@@ -2,6 +2,7 @@
 #define _TRANSPORT_H_
 
 #include <string>
+#include "../agraph/agraph.h"
 #include "../agraph/TransportGraph.h"
 
 struct way {
@@ -18,6 +19,10 @@ way :: way(string a, string b, double Price, Travel type) {
     this->travelType = type;
 }
 
+
+int solveTransport(AGraph* graph) {
+
+}
 
 double solveTransportTask(vector <string> cities, vector <way> ways) {
     CountryGraph <int, int> ourGraph;

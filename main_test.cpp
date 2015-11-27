@@ -12,27 +12,6 @@ using std::string;
 using std::cout;
 using std::endl;
 
-string getTaskName(string testPath) {
-    std::ifstream ifs;
-    Json::Value root;
-    Json::Reader reader;
-
-    ifs.open(testPath, std::ifstream::in);
-    REQUIRE(ifs);
-
-    bool res = reader.parse(ifs, root);
-    REQUIRE(res != false);
-
-    if (root["salesman"] != Json::Value::null)
-        return "salesman";
-    else if (root["2sat"] != Json::Value::null)
-        return "2sat";
-    else  if (root["landing"] != Json::Value::null)
-        return "landing";
-    else
-        return "null";
-}
-
 SCENARIO("Testing 2sat task") {
     try {
         REQUIRE(test2Sat("test0.json") == true);
@@ -47,14 +26,13 @@ SCENARIO("Testing 2sat task") {
         exit(1);
     }
 }
-
-
 SCENARIO("testblam") {
     string test = "../../salesman/tests/test0.json";
-    GIVEN("test file path") {
+    GIVEN("test file path 0") {
         std::ifstream ifs;
         Json::Value root;
         Json::Reader reader;
+
         ifs.open(test, std::ifstream::in);
         bool res = reader.parse(ifs, root);
         REQUIRE(res != false);
@@ -63,12 +41,13 @@ SCENARIO("testblam") {
         REQUIRE(data != Json::nullValue);
 
         string name = "salesman";
-        auto graph = GraphFactory::makeGraph(name, data);
+        AGraph* graph = GraphFactory::makeGraph(name, data);
 
-        REQUIRE(testSalesman(graph) == 234);
+        REQUIRE(solveSalesman(graph) == 234);
     }
 }
 
 SCENARIO("Testing transport task") {
     string test0 = "../../transport/tests/test0.json";
+
 }

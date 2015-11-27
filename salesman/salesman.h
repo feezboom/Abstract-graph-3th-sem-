@@ -23,7 +23,7 @@ void findSalesmanTest(string name, std :: ifstream& ifs) {
         throw "test file " + name + " was not found";
 }
 
-int testSalesman(AGraph* graph) {
+int solveSalesman(AGraph* graph) {
 
     return 234;
 }
