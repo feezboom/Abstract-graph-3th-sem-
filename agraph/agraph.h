@@ -44,7 +44,6 @@ class AGraph {
         T object;
     };
 
-
 /*
     template<typename U>
     U cast() const
@@ -84,8 +83,8 @@ public:
     /* это паттерн фабричный метод, что-то вроде виртуального конструктора */
 class AGRAPH_EXPORT GraphFactory {
 public:
-    static AGraph* makeGraph(Json::Value&);
-    static AGraph* makeGraph(string&, Json::Value&);
+    static AGraph* makeGraph(Json::Value& JSON_ROOT);
+    static AGraph* makeGraph(string&, Json::Value& GRAPH_DATA_NOT_ROOT);
 
     virtual ~GraphFactory() = 0;
 private:

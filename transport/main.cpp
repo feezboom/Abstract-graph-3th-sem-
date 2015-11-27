@@ -15,7 +15,7 @@ int main() {
     ways.push_back(way("fourth", "second", 3, Travel :: railway));
     ways.push_back(way("third", "fourth", 6, Travel :: road));
 
-    solveTransportTask(cities, ways);
+    cout << "Transport answer: " << solveTransportTask(cities, ways) << endl;
 
 	return 0;
 }
