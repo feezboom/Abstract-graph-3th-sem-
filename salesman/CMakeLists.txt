@@ -13,4 +13,4 @@ add_executable(salesmanTest main.cpp salesman.h)
 #Link library to executable file
 target_link_libraries(salesmanTest salesman)
 target_link_libraries(salesmanTest jsoncpp)
-target_link_libraries(salesman agraph)
+target_link_libraries(salesman graphs)

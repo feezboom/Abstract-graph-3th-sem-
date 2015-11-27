@@ -1,7 +1,7 @@
 #ifndef _TRANSPORTGRAPH_H_
 #define _TRANSPORTGRAPH_H_
 
-#include "MainGraph.h"
+#include "MainGraph.hpp"
 
 //*******************************************TRANSPORT BEGIN**************************************************//
 enum class Travel {
@@ -60,5 +60,7 @@ public:
     void printCountry();
 };
 //*******************************************TRANSPORT END****************************************************//
+
+#include "TransportGraph.hpp"
 
 #endif

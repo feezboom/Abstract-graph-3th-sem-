@@ -2,7 +2,6 @@
 #include "jsoncpp/include/json/json.h"
 #include "2sat.h"
 #include "salesman.h"
-#include "Graph/graph.h"
 #include "agraph/agraph.h"
 #include "catch.hpp"
 #include <fstream>
@@ -49,13 +48,27 @@ SCENARIO("Testing 2sat task") {
     }
 }
 
-SCENARIO("test") {
-    string testPath = "../../salesman/tests/test0.json";
 
-    string name = getTaskName(testPath);
+SCENARIO("testblam") {
+    string test = "../../salesman/tests/test0.json";
+    GIVEN("test file path") {
+        std::ifstream ifs;
+        Json::Value root;
+        Json::Reader reader;
+        ifs.open(test, std::ifstream::in);
+        bool res = reader.parse(ifs, root);
+        REQUIRE(res != false);
 
-    if (name == "salesman") {
-        REQUIRE(testSalesman(testPath) == 234);
+        Json::Value data = root["salesman"];
+        REQUIRE(data != Json::nullValue);
+
+        string name = "salesman";
+        auto graph = GraphFactory::makeGraph(name, data);
+
+        REQUIRE(testSalesman(graph) == 234);
     }
+}
 
+SCENARIO("Testing transport task") {
+    string test0 = "../../transport/tests/test0.json";
 }

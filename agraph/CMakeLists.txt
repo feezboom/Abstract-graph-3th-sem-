@@ -3,9 +3,6 @@ include(GenerateExportHeader)
 
 project (agraph)
 
-set(headers agraph.h TransportGraph.h MainGraph.h LandingGraph.h SalesmanGraph.h)
-set(sources agraph.cpp TransportGraph.cpp MainGraph.cpp LandingGraph.cpp SalesmanGraph.cpp)
-
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Debug)
 
@@ -13,8 +10,13 @@ set(CMAKE_BUILD_TYPE Debug)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 # создаем разделяемую библиотеку
-add_library(agraph SHARED ${sources} ${headers})
-add_executable(agraph_test test.cpp agraph)
+set(sources agraph.cpp LandingGraph.cpp SalesmanGraph.cpp)
+set(headers TransportGraph.h TransportGraph.h LandingGraph.h SalesmanGraph.h)
+add_library(graphs SHARED ${sources})
+
+add_executable(agraph_test test.cpp ${headers})
+
+target_link_libraries(agraph_test graphs)
 
 # генерируем заголовочный файл с определениями для экспорта 
-generate_export_header(agraph)
+generate_export_header(graphs)

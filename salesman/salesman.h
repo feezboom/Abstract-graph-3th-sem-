@@ -23,19 +23,7 @@ void findSalesmanTest(string name, std :: ifstream& ifs) {
         throw "test file " + name + " was not found";
 }
 
-int testSalesman(string testPath) {
-    std::ifstream ifs;
-    Json::Value root;
-    Json::Reader reader;
-    ifs.open(testPath, std::ifstream::in);
-    bool res = reader.parse(ifs, root);
-
-    Json::Value data = root["salesman"];
-
-    string name("salesman");
-    AGraph* myGraph = GraphFactory :: makeGraph(name);
-
-
+int testSalesman(AGraph* graph) {
 
     return 234;
 }

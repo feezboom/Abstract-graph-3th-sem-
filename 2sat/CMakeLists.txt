@@ -11,7 +11,6 @@ add_library(2sat 2sat.cpp)
 add_executable(2sat_exe test.cpp 2sat.h)
 
 #Link library to executable file
-add_dependencies(2sat_exe 2sat)
 target_link_libraries(2sat_exe 2sat)
 target_link_libraries(2sat_exe jsoncpp)
 target_link_libraries(2sat jsoncpp)

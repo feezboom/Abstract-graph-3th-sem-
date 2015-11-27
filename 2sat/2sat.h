@@ -6,7 +6,7 @@
 #include <string>
 #include "fstream"
 #include <iostream>
-#include "../Graph/graph.h"
+#include "../agraph/MainGraph.hpp"
 #include "jsoncpp/include/json/json.h"
 
 

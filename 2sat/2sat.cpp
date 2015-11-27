@@ -1,6 +1,5 @@
 #include "2sat.h"
-#include "../Graph/graph.h"
-#include <cstdlib>
+#include "../agraph/MainGraph.hpp"
 
 void makeNegative(string& label) {
     if (label.length() > 3 && label.substr(0, 3) == "not") {

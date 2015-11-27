@@ -44,13 +44,13 @@ class AGraph {
         T object;
     };
 
-    /* вот так можно восстановить объект */
+
 /*
     template<typename U>
     U cast() const
     {
 
-        if(typeid(U) != object->type_info())
+        if(typeid(U) != type_info(object))
             throw std::runtime_error("Bad graph cast");
         return static_cast<GraphModel<U>* >(object)->object;
     }
@@ -85,8 +85,7 @@ public:
 class AGRAPH_EXPORT GraphFactory {
 public:
     static AGraph* makeGraph(Json::Value&);
-    static AGraph* makeGraph();
-    static AGraph* makeGraph(string& name);
+    static AGraph* makeGraph(string&, Json::Value&);
 
     virtual ~GraphFactory() = 0;
 private:

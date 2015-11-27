@@ -2,21 +2,16 @@
 #include <iostream>
 #include <typeinfo>
 
-#include "MainGraph.h"
+#include "MainGraph.hpp"
 #include "TransportGraph.h"
 #include "LandingGraph.h"
 
 
-AGraph* GraphFactory::makeGraph(string& name){
+AGraph* GraphFactory::makeGraph(string& name, Json::Value& graph){
     if(name == "transport") {
-        return new AGraph(CountryGraph <int, int>());
+        return nullptr;
     }
     if(name == "landing") {
-        return new AGraph(LandingGraph());
+        return nullptr;
     }
-}
-
-
-AGraph* GraphFactory::makeGraph() {
-    return nullptr;
 }

@@ -2,7 +2,7 @@
 #define _TRANSPORT_H_
 
 #include <string>
-#include "../Graph/graph.h"
+#include "../agraph/TransportGraph.h"
 
 struct way {
     string a;
