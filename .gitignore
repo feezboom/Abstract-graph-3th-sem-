@@ -11,3 +11,4 @@ CMakeLists.txt.user.18
 *build*
 *~
 *.swp
+.idea/*
