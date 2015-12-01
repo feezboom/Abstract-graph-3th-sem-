@@ -5,7 +5,7 @@
 #include <memory>
 #include <vector>
 #include "../jsoncpp/include/json/json.h"
-#include "agraph_export.h"
+#include "graphs_export.h"
 
 using namespace std;
 
@@ -26,16 +26,16 @@ class AGraph {
     struct GraphModel : GraphConcept {
         GraphModel( const T& t ) : object( t ) {}
         virtual void insert_vertex(const string& name) {
-            return object.insert_vertex(name);
+            object.insert_vertex(name);
         }
         virtual void add_edge(const string& from, const string& to, double weight = 0) {
-            return object.add_edge(from, to, weight);
+            object.add_edge(from, to, weight);
         }
         virtual void transpose() {
-            return object.transpose();
+            object.transpose();
         }
         virtual vector<vector<string>> getStrongComponents() {
-            return object.Kosaraju();
+            object.Kosaraju();
         }
 
 
@@ -44,17 +44,16 @@ class AGraph {
         T object;
     };
 
-/*
-    template<typename U>
+
+/*    template<typename U>
     U cast() const
     {
 
         if(typeid(U) != type_info(object))
             throw std::runtime_error("Bad graph cast");
-        return static_cast<GraphModel<U>* >(object)->object;
+        return static_cast <GraphModel<U>* >(object)->object;
     }
 */
-
 
 private:
     std::unique_ptr<GraphConcept> object;
@@ -81,7 +80,7 @@ public:
 
 
     /* это паттерн фабричный метод, что-то вроде виртуального конструктора */
-class AGRAPH_EXPORT GraphFactory {
+class GRAPHS_EXPORT GraphFactory {
 public:
     static AGraph* makeGraph(Json::Value& JSON_ROOT);
     static AGraph* makeGraph(string&, Json::Value& GRAPH_DATA_NOT_ROOT);

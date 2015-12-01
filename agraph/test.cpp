@@ -1,6 +1,6 @@
 #include <iostream>
 #include "agraph.h"
-#include "agraph_export.h"
+#include "graphs_export.h"
 #include "TransportGraph.h"
 #include "../jsoncpp/include/json/json.h"
 #include <vector>
