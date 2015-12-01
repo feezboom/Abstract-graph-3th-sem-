@@ -12,3 +12,4 @@ CMakeLists.txt.user.18
 *~
 *.swp
 .idea/*
+/smallTasks/ukkonen/.idea/*
