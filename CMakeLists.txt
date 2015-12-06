@@ -36,7 +36,5 @@ include_directories("${CMAKE_SOURCE_DIR}/jsoncpp/include" "${CMAKE_SOURCE_DIR}/a
 link_directories("${CMAKE_BINARY_DIR}/jsoncpp/lib")
 
 add_executable(tests ${sources} ${headers})
-#Порядок сборки
 add_dependencies(tests jsoncpp_lib 2sat graphs transport salesman)
-#Языковые зависимости
 target_link_libraries(tests jsoncpp 2sat graphs transport)
