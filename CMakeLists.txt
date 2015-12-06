@@ -3,13 +3,13 @@ project (ninja_turtles)
 
 ADD_DEFINITIONS("-g")
 
-set(CMAKE_VERBOSE_MAKEFILE on)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -save-temps")
+#set(CMAKE_VERBOSE_MAKEFILE on)
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -save-temps")
 
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Debug)
 
-SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/bin)
+SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/lib)
 
 #Where to search headers
@@ -32,7 +32,7 @@ add_subdirectory(smallTasks/ukkonen)
 set(sources main_test.cpp catch_inc.cpp)
 set(headers catch.hpp)
 
-#include_directories("${CMAKE_SOURCE_DIR}/jsoncpp/include" "${CMAKE_SOURCE_DIR}/agraph")
+include_directories("${CMAKE_SOURCE_DIR}/jsoncpp/include" "${CMAKE_SOURCE_DIR}/agraph")
 link_directories("${CMAKE_BINARY_DIR}/jsoncpp/lib")
 
 add_executable(tests ${sources} ${headers})
