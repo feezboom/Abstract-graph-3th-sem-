@@ -1,23 +1,14 @@
 #include <string>
-#include <map>
 #include <iostream>
+#include "StateMachineGraph.h"
 
-struct vertex;
-struct edge {
-    size_t beg;
-    size_t lim;
-    vertex *end;
-    edge():beg(0),lim(0),end(0){};
-};
-struct vertex {
-    std::map <char,edge> child;
-    size_t id_dontuse;
-    size_t depth_dontuse;
-    vertex *suffix_link;
-};
-
-#define min(x,y) ((x<y)?(x):(y))
+using namespace std;
 
 int main(void) {
+    cout << "Hello, StateMachine!" << endl;
+    StateMachineGraph ourGraph;
+
+    ourGraph.insert_vertex("Hello");
+
     return 0;
 }
