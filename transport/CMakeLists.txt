@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDART 14)
 set(HEADERS transport.h)
 set(SOURCE_LIB transport.cpp)
 
+link_directories("${CMAKE_BINARY_DIR}/jsoncpp/lib")
+link_directories("${PROJECT_BINARY_DIR}/jsoncpp/lib")
 link_directories(${PROJECT_BINARY_DIR}/agraph)
 
 add_library(transport SHARED ${SOURCE_LIB})
