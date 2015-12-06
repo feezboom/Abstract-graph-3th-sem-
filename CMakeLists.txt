@@ -9,6 +9,9 @@ ADD_DEFINITIONS("-g")
 
 set(CMAKE_CXX_STANDARD 14)
 
+# jsoncpp переопределяет OUTPUT_DIRECTORY поэтому включаем его вначале
+add_subdirectory(jsoncpp)
+
 SET(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 SET(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR})
 
@@ -20,7 +23,6 @@ include_directories(Graph)
 include_directories(smallTasks/hashtable)
 
 #Where to search and build independent subprojects
-add_subdirectory(jsoncpp)
 add_subdirectory(2sat)
 add_subdirectory(Graph)
 add_subdirectory(transport)
