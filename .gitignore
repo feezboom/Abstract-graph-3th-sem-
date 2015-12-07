@@ -9,7 +9,8 @@ install_manifest.txt
 *.cbp
 CMakeLists.txt.user.18
 *build*
-*~
+CMakeLists.txt~
 *.swp
-*idea*
+*idea
 /smallTasks/ukkonen/.idea/*
+*~
