@@ -3,5 +3,5 @@ project(waterway)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-set(SOURCE_FILES WaterWayTest.cpp SparseTable.cpp SparseTable.h)
+set(SOURCE_FILES WaterWayTest.cpp)
 add_executable(waterway ${SOURCE_FILES})
