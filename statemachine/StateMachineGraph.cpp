@@ -67,13 +67,15 @@ void StateMachineGraph :: insertPattern(const string &name) {
     // Вставка строки в бор
     int active = 0; // Все дела начинаются с корня
     for (int i = 0; i < name.length(); ++i) {
+        // Пробегаемся по символам строки
         char symbol = name[i];
         if (nodes[active].child.find(symbol) == nodes[active].child.end()) {
-            // Значит, такого ребра не существует
+            // Значит, ребра по такому символу не существует
             // Добавим его!
             nodes.push_back(stateMachineVertex(active, symbol));
             nodes[active].child[symbol] = (int)nodes.size() - 1;
         }
+        // Переназначаем активную вершину
         active = nodes[active].child[symbol];
     }
     nodes[active].isWord = true;
@@ -85,10 +87,10 @@ multimap <string, int> StateMachineGraph :: solve(string input) {
     multimap <string, int> answer;
     for (int i = 0; i < input.length(); ++i) {
         u = getMove(u, input[i]);
-        for (int v = u; v != 0; v = getSuffixLink(v)) {
+        for (int v = u; v != 0; v = getSmartSuffixLink(v)) {
             if (nodes[v].isWord) {
-                answer.insert(make_pair(nodes[v].pattern, i));
-                cout << nodes[v].pattern << " " << i << endl;
+                answer.insert(make_pair(nodes[v].pattern, i - nodes[v].pattern.length() + 2));
+                cout << nodes[v].pattern << " " << i - nodes[v].pattern.length() + 2 << endl;
             }
         }
     }

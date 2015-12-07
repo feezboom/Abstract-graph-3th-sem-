@@ -15,6 +15,7 @@ int main(void) {
     ourGraph.insert_vertex("bbbc");
 
     ourGraph.solve("abcdcbcddbbbcccbbbcccbb");
+//    ourGraph.solve("abcdc");
 
     return 0;
 }
