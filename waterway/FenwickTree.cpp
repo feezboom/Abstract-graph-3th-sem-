@@ -4,19 +4,22 @@
 
 #include "FenwickTree.h"
 #include <cmath>
-#include <limits.h>
 
 FenwickTree:: FenwickTree(vector<double> data) : data(data) {
+
+    for(k = 0; pow(2,k) < data.size(); ++k);
+    for(int i = 0; i < pow(2,k); ++i) {
+        left.push_back(-1);
+        right.push_back(-1);
+    }
+
+    prepare();
+}
+
+void FenwickTree::prepare() {
     for(int i = 0; i < data.size(); ++i) {
         update(i + 1, data[i]);
     }
-    for(k = 0; pow(2,k) < data.size(); ++k);
-
-    for(int i = 0; i < pow(2,k); ++i) {
-        left.push_back(0);
-        right.push_back(0);
-    }
-
 }
 
 void FenwickTree::update(int index, double value) {
@@ -36,9 +39,12 @@ double FenwickTree::getMax(int leftIndex, int rightIndex) {
         result = std::max(result, right[i]);
     }
 
+    if (data[i-1])
     result = std::max(result, data[i-1]);
 
-    for(i = rightIndex; i - G(i) >= leftIndex; i += G(i)) {
+    for(i = rightIndex; i - G(i) >= leftIndex; i -= G(i)) {
         result = std::max(result, left[i]);
     }
+
+    return result;
 }
