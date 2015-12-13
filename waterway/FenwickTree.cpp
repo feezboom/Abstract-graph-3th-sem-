@@ -5,45 +5,64 @@
 #include "FenwickTree.h"
 #include <cmath>
 
-FenwickTree:: FenwickTree(vector<double> data) : data(data) {
+using namespace std;
 
-    for(k = 0; pow(2,k) < data.size(); ++k);
-    for(int i = 0; i < pow(2,k); ++i) {
-        left.push_back(-1);
-        right.push_back(-1);
+#define max(a,b) ((a) > (b) ? (a) : (b))
+
+FenwickTree:: FenwickTree(vector<vector<int>> data) : data(data) {
+    // Setting k -> min power of 2, which bigger than data.size : (pow(2,k) >= data.size)
+    for(verticalPower = 0; pow(2, verticalPower) < data.size(); ++verticalPower);
+    for(horizontalPower = 0; pow(2, horizontalPower) < data[0].size(); ++horizontalPower);
+    // Initializing vectors
+    for(int i = 0; i <= pow(2, verticalPower); ++i) {
+        left.push_back(vector<int>());
+        right.push_back(vector<int>());
+        for(int j = 0; j <= pow(2, horizontalPower); ++j) {
+            left[i].push_back(-1);
+            right[i].push_back(-1);
+        }
     }
-
     prepare();
 }
 
 void FenwickTree::prepare() {
     for(int i = 0; i < data.size(); ++i) {
-        update(i + 1, data[i]);
+        for(int j = 0; j < data[0].size(); ++j) {
+            update(i + 1, j + 1, data[i][j]);
+        }
     }
 }
 
-void FenwickTree::update(int index, double value) {
-    for(int i = index; i <= pow(2, k); i += G(i)) {
-        left[i] = std::max(left[i], value);
+void FenwickTree::update(int indexI, int indexJ, int value) {
+    for(int i = indexI; i <= pow(2, verticalPower); i += G(i)) {
+        for(int j = indexJ; j <= pow(2, horizontalPower); j += G(j)) {
+            left[i][j] = max(left[i][j], value);
+        }
     }
 
-    for(int i = index; i > 0; i -= G(i)) {
-        right[i] = std::max(right[i], value);
+    for(int i = indexI; i > 0; i -= G(i)) {
+        for(int j = indexJ; j > 0; j -= G(i)) {
+            right[i][j] = max(right[i][j], value);
+        }
     }
 }
 
-double FenwickTree::getMax(int leftIndex, int rightIndex) {
-    double result = 0;
-    int i;
-    for(i = leftIndex; i + G(i) <= rightIndex; i += G(i)) {
-        result = std::max(result, right[i]);
+int FenwickTree::getMax(int leftIndex, int rightIndex, int upIndex, int downIndex) {
+    int i = leftIndex, j = upIndex;
+    int result = 0;
+
+    for(; i + G(i) <= rightIndex; i += G(i)) {
+        for(; j + G(j) <= downIndex; j += G(j)) {
+            result = max(result, right[i][j]);
+        }
     }
 
-    if (data[i-1])
-    result = std::max(result, data[i-1]);
+    result = max(result, data[i-1][j-1]);
 
     for(i = rightIndex; i - G(i) >= leftIndex; i -= G(i)) {
-        result = std::max(result, left[i]);
+        for(j = downIndex; j - G(j) >= upIndex; j -= G(j)) {
+            result = max(result, left[i][j]);
+        }
     }
 
     return result;

@@ -14,18 +14,20 @@ public:
         return i - (i&(i-1));
     }
 private:
-    vector<double> data;
-    vector<double> left;
-    vector<double> right;
-    int k;
+    vector<vector<int>> data;
+    vector<vector<int>> left;
+    vector<vector<int>> right;
+    int verticalPower;
+    int horizontalPower;
+
     // В left[i] хранится максимум на отрезке [i - G(i) + 1, i], если i < pow(2,k), и data[i], если i = pow(2,k)
     // В right[i] хранится максимум на отрезке [i + G(i) -1], если i < pow(2, k), и data[i], если i = pow(2,k)
     // k - минимальное число, такое, что pow(2, k) >= data.size()
     void prepare();
 public:
-    FenwickTree(vector<double> data);
-    void update(int i, double value);
-    double getMax(int leftIndex, int rightIndex);
+    FenwickTree(vector<vector<int>> data);
+    void update(int i, int j, int value);
+    int getMax(int leftIndex, int rightIndex, int upIndex, int downIndex);
 };
 
 

@@ -5,10 +5,11 @@ using namespace std;
 
 int main() {
     cout << "Hello, Waterway!" << endl;
-
-    vector<double> ourMas = {1,3,4,4,3,4,5,6,7,3,9,4,6,1,2,4,0,7,6,4,7,9,8};
+    vector<vector<int>> ourMas = {  vector<int>{1,2,3},
+                                    vector<int>{4,6,5},
+                                    vector<int>{7,8,9} };
     FenwickTree fenwickTree(ourMas);
 
-    cout << fenwickTree.getMax(1,15) << endl;
+    cout << "AnswerIs->" << fenwickTree.getMax(2,3,1,2) << endl;
     return 0;
 }
