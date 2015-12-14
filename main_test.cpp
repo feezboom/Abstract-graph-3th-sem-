@@ -1,11 +1,9 @@
-#include <vector>
 #include "jsoncpp/include/json/json.h"
 #include "2sat.h"
 #include "salesman.h"
 #include "agraph/agraph.h"
+#include "WaterWayTesting.h"
 #include "catch.hpp"
-#include <fstream>
-#include <iostream>
 #include <string>
 
 using std::string;
@@ -50,4 +48,9 @@ SCENARIO("testblam") {
 SCENARIO("Testing transport task") {
     string test0 = "../../transport/tests/test0.json";
 
+}
+
+SCENARIO("Water Way test") {
+
+    REQUIRE(testWaterWay("../waterway/tests/test0.json", 1, 2, 1, 2) == 1);
 }

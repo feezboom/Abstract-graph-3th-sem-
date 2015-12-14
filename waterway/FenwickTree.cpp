@@ -83,3 +83,21 @@ void FenwickTree::print() {
         std::cout << std::endl;
     }
 }
+
+FenwickTree::FenwickTree(Json::Value value) {
+    Json::Value g = value["xdim"];
+    int xdim = g.asInt();
+    g = value["ydim"];
+    int ydim = g.asInt();
+    g = value["data"];
+
+    cout << g[0][0].asInt();
+/*
+    for(int i = 0; i < ydim; ++i) {
+        data.push_back(vector<int>());
+        for(int j = 0; j < xdim; ++j) {
+//            data[i].push_back(g[i][j].asInt());
+        }
+    }
+*/
+}

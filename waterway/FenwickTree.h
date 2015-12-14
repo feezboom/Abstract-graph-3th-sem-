@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <iostream>
+#include "../jsoncpp/include/json/json.h"
 
 using std::vector;
 
@@ -21,10 +22,6 @@ private:
     vector<vector<int>> right;
     int verticalPower;
     int horizontalPower;
-
-    // В left[i] хранится максимум на отрезке [i - G(i) + 1, i], если i < pow(2,k), и data[i], если i = pow(2,k)
-    // В right[i] хранится максимум на отрезке [i + G(i) -1], если i < pow(2, k), и data[i], если i = pow(2,k)
-    // k - минимальное число, такое, что pow(2, k) >= data.size()
     void prepare();
 public:
     FenwickTree(vector<vector<int>> data);

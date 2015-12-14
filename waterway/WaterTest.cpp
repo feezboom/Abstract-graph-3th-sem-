@@ -11,5 +11,6 @@ int main() {
     FenwickTree fenwickTree(ourMas);
 
     cout << "AnswerIs->" << fenwickTree.getMin(4,4,1,3) << endl;
+
     return 0;
 }
