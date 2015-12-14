@@ -6,6 +6,8 @@
 #define WATERWAY_FENWICKTREE_H
 
 #include <vector>
+#include <iostream>
+
 using std::vector;
 
 class FenwickTree {
@@ -26,8 +28,10 @@ private:
     void prepare();
 public:
     FenwickTree(vector<vector<int>> data);
+    FenwickTree(Json::Value value);
     void update(int i, int j, int value);
-    int getMax(int leftIndex, int rightIndex, int upIndex, int downIndex);
+    int getMin(int leftIndex, int rightIndex, int upIndex, int downIndex);
+    void print();
 };
 
 
