@@ -17,7 +17,6 @@ include_directories(2sat)
 include_directories(transport)
 include_directories(salesman)
 include_directories(smallTasks/hashtable)
-include_directories(smallTasks/ukkonen)
 include_directories(${PROJECT_BINARY_DIR}/agraph)
 
 #Where to search and build independent subprojects
@@ -27,7 +26,6 @@ add_subdirectory(2sat)
 add_subdirectory(transport)
 add_subdirectory(salesman)
 add_subdirectory(smallTasks/hashtable)
-add_subdirectory(smallTasks/ukkonen)
 
 set(sources main_test.cpp catch_inc.cpp)
 set(headers catch.hpp)
