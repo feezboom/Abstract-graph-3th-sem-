@@ -1,0 +1,9 @@
+{
+    "2sat": [
+	{ "first": {"label": "c", "neg": true},  "second": {"label": "a", "neg": true}},
+        { "first": {"label": "a", "neg": false},  "second": {"label": "b", "neg": false}},
+        { "first": {"label": "b", "neg": true},  "second": {"label": "a", "neg": false}},
+	{ "first": {"label": "a", "neg": true},  "second": {"label": "c", "neg": false}}
+        
+        ]
+}
