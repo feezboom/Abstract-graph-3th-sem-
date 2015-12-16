@@ -20,10 +20,6 @@ way :: way(string a, string b, double Price, Travel type) {
 }
 
 
-int solveTransport(AGraph* graph) {
-
-}
-
 double solveTransportTask(vector <string> cities, vector <way> ways) {
     CountryGraph <int, int> ourGraph;
     ourGraph.insertCities(cities);
