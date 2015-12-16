@@ -2,7 +2,8 @@
 template <class type, class E>
 void CountryGraph <type, E> :: makeDistancesInfinite() {
     for(auto &it : this->cityList) {
-        it->distance = numeric_limits <double> :: max();
+        // Тут была ошибка 1, не double а int
+        it->distance = numeric_limits <int> :: max();
     }
 }
 
@@ -26,7 +27,7 @@ bool CountryGraph <type, E> :: cityInCountry(const string &name) {
 template <class type, class E>
 bool CountryGraph <type, E> :: areAllBlack() {
     for(const auto &it : cityList) {
-        if (it->current_color == color :: white)
+        if (it->current_color != color :: black)
             return false;
     }
     return true;
@@ -111,6 +112,7 @@ double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const s
     if(!cityInCountry(finish))
         throw "city" + finish + "does not exist";
 
+    // Everything like in Djkstra algorithm
     this->makeDistancesInfinite();
     this->getPtr(start)->distance = 0;
 
@@ -126,12 +128,14 @@ double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const s
 
 template <class type, class E>
 void CountryGraph <type, E> :: processing() {
+    // Сначала ищем город с минимальной меткой дистанции, сначала это стартовый город
     auto ourCityPtr = this->findMinDistanceCity();
     string ourCityName = ourCityPtr->name;
     double ourCityDistance = ourCityPtr->distance;
     Travel ourCityTravelType = ourCityPtr->previousTravel;
 
     //ВЫНЕСТИ СОДЕРЖИМОЕ FOR В ОТДЕЛЬНУЮ ФУНКЦИЮ
+    // Сначала мы ищем кратчайший путь по всем дорогам, применяя скидку, где она есть
     for(auto &it : ourCityPtr->roads_to) {
         string neighbourName = it.first;
         auto neighbourPtr = it.second;
@@ -144,12 +148,15 @@ void CountryGraph <type, E> :: processing() {
 
         neighbourPtr->distance = min(candidate1, candidate2);
     }
+
+    // А после этого ищем эти пути по железным дорогам, и если они дешевле, вдруг, то они обновятся
     for(auto &it : ourCityPtr->railways_to) {
         string neighbourName = it.first;
         auto neighbourPtr = it.second;
 
-        double apply_discount = (ourCityTravelType == Travel :: railway) ? 1 : (this->applyDiscount);
-        double currentRoadPrice = this->roadsPrice[ourCityName][neighbourName];
+        double apply_discount = (ourCityTravelType == Travel :: railway) ? (this->applyDiscount) : (1);
+        // Тут была ошибка номер 2
+        double currentRoadPrice = this->railwaysPrice[ourCityName][neighbourName];
 
         double candidate1 = ourCityDistance + currentRoadPrice * apply_discount;
         double candidate2 = it.second->distance;
@@ -162,10 +169,19 @@ void CountryGraph <type, E> :: processing() {
 
 template <class type, class E>
 shared_ptr <City<type>>  CountryGraph <type, E> :: findMinDistanceCity() {
-    double min = numeric_limits <double> :: max();
+    double min = numeric_limits <int> :: max();
     shared_ptr <City<type>> answer = nullptr;
+    string name;
+    double distance;
+    color curColor;
+
     for(auto& it : cityList) {
-        if(it->current_color == (color :: white) && (it->distance) < min) {
+
+        name = it->name;
+        distance = it->distance;
+        curColor = it->current_color;
+
+        if((curColor == (color :: white)) && (distance < min)) {
             answer = it;
             min = it->distance;
         }
