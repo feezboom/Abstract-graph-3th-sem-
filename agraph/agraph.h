@@ -5,8 +5,6 @@
 #include <memory>
 #include "../jsoncpp/include/json/json.h"
 
-#include "agraph_export.h"
-
 /* 
 это реализация паттерна type erasure
 задача - скрыть объекты разных классов с общим интерфейсом за одним типом данных с тем же самым интерфейсом
@@ -70,11 +68,11 @@ public:
 };
 
 /* это паттерн фабричный метод, что-то вроде виртуального конструктора */
-/* 
+/*
 атрибут PROJECT_EXPORT явно указывает, что этот интерфейс библиотеки доступен для вызова из другого места.
 без него под MSVC приложение не соберется
 */
-class AGRAPH_EXPORT GraphFactory {
+class GraphFactory {
 public:
     /* static AGraph* makeGraph(const std::string&, enum TASK); если без json */
     static AGraph* makeGraph(Json::Value&);
