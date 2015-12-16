@@ -10,10 +10,10 @@ template <typename Key, typename Value> class Hashtable;
 
 template <typename Key, typename Value>
 struct node {
-    node<Key, Value>* next;
-    node<Key, Value>* prev;
-    Value value;
-    Key key;
+	node<Key, Value>* next;
+	node<Key, Value>* prev;
+	Value value;
+	Key key;
 };
 
 template <typename Key, typename Value>
@@ -32,17 +32,18 @@ public:
 	void clean();
 	void print();
 
-	Hashtable::Iterator& begin();
-	Hashtable::Iterator& end();
+	typename Hashtable::Iterator& begin();
+	typename Hashtable::Iterator& end();
 };
 
 template <typename Key, typename Value>
-class Hashtable <Key, Value> :: Iterator {
+class Hashtable <Key, Value> ::Iterator {
 private:
-    //Fields
-    node<Key, Value>* element;
-    Hashtable<Key, Value>* table;
-    int hash;
+	//Fields
+	friend class Hashtable<Key, Value>;
+	node<Key, Value>* element;
+	Hashtable<Key, Value>* table;
+	int hash;
 public:
 	Iterator();
 	Iterator(node<Key, Value>* element, Hashtable<Key, Value>* table);
@@ -50,7 +51,7 @@ public:
 	Iterator& operator++();
 	Value operator*();
 	bool operator!=(Iterator toCompare);
-    ~Iterator() {}
+	~Iterator() {}
 };
 
 #include "hashtable.hpp"
