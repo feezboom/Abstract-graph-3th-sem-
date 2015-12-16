@@ -19,8 +19,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/libraries)
 
 # подпроект с реализацией графа
 add_subdirectory(agraph)
+add_subdirectory(Tasks/salesman)
 # добавляем директорию для поиска сгенерированного заголовочного файла
 include_directories(${PROJECT_BINARY_DIR}/agraph)
+include_directories(${PROJECT_BINARY_DIR}/Tasks/salesman)
 # определяем списки исходников
 set(sources test.cpp catch_inc.cpp)
 set(headers catch.hpp)
