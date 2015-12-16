@@ -14,3 +14,7 @@ using std::endl;
 SCENARIO("ZERO") {
     cout << "Initialized" << endl;
 }
+
+SCENARIO("Testins safeconstructor") {
+    cout << "Here we can test safe constructor" << endl;
+}
