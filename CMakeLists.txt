@@ -19,8 +19,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/libraries)
 
 # подпроект с реализацией графа
 add_subdirectory(agraph)
+add_subdirectory(Tasks/commonstr)
 # добавляем директорию для поиска сгенерированного заголовочного файла
 include_directories(${PROJECT_BINARY_DIR}/agraph)
+include_directories(${PROJECT_BINARY_DIR}/Tasks/commonstr)
 # определяем списки исходников
 set(sources test.cpp catch_inc.cpp)
 set(headers catch.hpp)
@@ -34,3 +36,5 @@ add_executable(tests ${sources} ${headers})
 add_dependencies(tests jsoncpp_lib agraph)
 # указываем зависимости от библиотек
 target_link_libraries(tests agraph jsoncpp)
+
+target_link_libraries(tests commonstr_task_lib)
