@@ -19,8 +19,10 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${PROJECT_BINARY_DIR}/libraries)
 
 # подпроект с реализацией графа
 add_subdirectory(agraph)
+add_subdirectory(Tasks/waterway)
 # добавляем директорию для поиска сгенерированного заголовочного файла
 include_directories(${PROJECT_BINARY_DIR}/agraph)
+include_directories(${PROJECT_BINARY_DIR}/Tasks/waterway)
 # определяем списки исходников
 set(sources test.cpp catch_inc.cpp)
 set(headers catch.hpp)
@@ -34,3 +36,8 @@ add_executable(tests ${sources} ${headers})
 add_dependencies(tests jsoncpp_lib agraph)
 # указываем зависимости от библиотек
 target_link_libraries(tests agraph jsoncpp)
+
+add_library(waterway_test_lib testLibraries/waterwayTestLib.cpp)
+target_link_libraries(waterway_test_lib jsoncpp_lib waterway_task_lib)
+
+target_link_libraries(tests waterway_test_lib)
