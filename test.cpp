@@ -14,3 +14,7 @@ using std::endl;
 SCENARIO("ZERO") {
     cout << "Initialized" << endl;
 }
+
+SCENARIO("testing inchash??") {
+    cout << "There is no need to test it" << endl;
+}
