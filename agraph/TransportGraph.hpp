@@ -112,7 +112,7 @@ double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const s
     if(!cityInCountry(finish))
         throw "city" + finish + "does not exist";
 
-    // Everything like in Djkstra algorithm
+    // Everything like in Dijkstra algorithm
     this->makeDistancesInfinite();
     this->getPtr(start)->distance = 0;
 
