@@ -188,6 +188,10 @@ shared_ptr <City<type>>  CountryGraph <type, E> :: findMinDistanceCity() {
     }
     return answer;
 }
+template <class type, class E>
+double CountryGraph <type, E> :: do_Dijkstra(string from, string to) {
+    return findTheCheapestWay(from, to);
+}
 //*******************************************IMPLEMENTATION COUNTRY END***************************************//
 
 

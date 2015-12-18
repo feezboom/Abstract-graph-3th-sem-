@@ -40,7 +40,7 @@ target_link_libraries(tests agraph jsoncpp)
 add_library(base_test_lib testLibraries/baseTestLib.cpp)
 
 add_library(transport_test_lib testLibraries/transportTestLib.cpp)
-target_link_libraries(transport_test_lib jsoncpp transport_task_lib base_test_lib)
+target_link_libraries(transport_test_lib jsoncpp transport_task_lib base_test_lib agraph)
 
 target_link_libraries(tests transport_task_lib transport_test_lib)
 

@@ -54,6 +54,7 @@ public:
     void addRoad(const string &city1, const string &city2, double price);
     void addRailway(const string &city1, const string &city2, double price);
     double findTheCheapestWay(const string &start, const string &finish);
+    virtual double do_Dijkstra(string from, string to);
     void theCheapesWayUpdate();
     shared_ptr <City<type>> findMinDistanceCity();
     void processing();//searchingTheCheapestWay

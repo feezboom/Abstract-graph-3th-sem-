@@ -6,6 +6,6 @@
 
 
 
-double solveTransportTask(string testName);
+double solveOurTransportTask(string testName);
 
 #endif // TRANSPORTTESTLIB_H
