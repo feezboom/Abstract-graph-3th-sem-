@@ -40,11 +40,12 @@ public:
     // Необходимые функции для паттерна графа
     void insert_vertex(const string& name) { insertPattern(name); }
     void add_edge(const string& from, const string& to, double weight = 0) { doNothing(); }
-    void transpose() { doNothing();};
+    void transpose() { doNothing();}
     vector<vector<string>> getStrongComponents() {
         doNothing();
         return vector<vector<string>>();
     }
+    void print_graph() { doNothing();};
 
     // Возвращает ответ в виде мультимапа - <строка, начала её вхождений>
     multimap <string, int> solve(string input);
