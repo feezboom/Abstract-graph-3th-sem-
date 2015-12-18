@@ -16,4 +16,4 @@ add_library(agraph SHARED ${sources} ${headers})
 generate_export_header(agraph)
 
 # линкуем библиотеку json к agraph
-target_link_libraries(agraph jsoncpp_lib)
+#target_link_libraries(agraph jsoncpp_lib)
