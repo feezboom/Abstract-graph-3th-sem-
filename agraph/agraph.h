@@ -93,6 +93,7 @@ class GraphFactory {
 public:
     /* static AGraph* makeGraph(const std::string&, enum TASK); если без json */
     static AGraph* makeGraph(Json::Value&);
+    static AGraph* makeGraph(string taskName);
 
     virtual ~GraphFactory() = 0;
 private:
