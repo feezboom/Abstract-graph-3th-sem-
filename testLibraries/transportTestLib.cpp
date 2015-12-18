@@ -5,6 +5,7 @@
 #include <iostream>
 #include <fstream>
 #include <assert.h>
+#include "../catch.hpp"
 #include "../jsoncpp/include/json/json.h"
 
 using std::string;
@@ -21,8 +22,8 @@ double solveOurTransportTask(string testName) {
 
     assert(ifs);
 
-    bool res = reader.parse(ifs, root);
-/*    if (res == false) {
+/*    bool res = reader.parse(ifs, root);
+    if (res == false) {
         throw "mistake in json test file (" + testName + ")";
     }
 
@@ -31,7 +32,9 @@ double solveOurTransportTask(string testName) {
 */
 
     GraphFactory::makeGraph(root);
+
     AGraph* ourGraph = GraphFactory::makeGraph("transport");
+/*
     ourGraph->insert_vertex("first");
     ourGraph->insert_vertex("second");
     ourGraph->insert_vertex("third");
@@ -46,12 +49,21 @@ double solveOurTransportTask(string testName) {
     ourGraph->add_edge("third", "fourth", 6);
 
     ourGraph->print_graph();
+*/
 
-    int answer = ourGraph->do_Dijkstra("third", "second");
+    ourGraph->insert_vertex("1");
+    ourGraph->insert_vertex("2");
+    ourGraph->insert_vertex("3");
+    ourGraph->insert_vertex("4");
 
+    ourGraph->add_edge("1", "2", 2);
+    ourGraph->add_edge("2", "4", 1000);
+    ourGraph->add_edge("1", "3", 100);
+    ourGraph->add_edge("3", "4", 200);
 
-    cout << "Transport answer: " << answer << endl;
+    ourGraph->print_graph();
 
-
+    int answer = ourGraph->do_Dijkstra("1", "4");
+    return answer;
 //  Нужен тест, который провалится на жадном алгоритме.
 }

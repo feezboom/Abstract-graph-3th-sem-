@@ -20,7 +20,7 @@ way :: way(string a, string b, double Price, Travel type) {
 }
 
 
-double solveTransportTask(vector <string> cities, vector <way> ways) {
+double solveTransportTask(vector <string> cities, vector <way> ways, string from, string to) {
     CountryGraph <int, int> ourGraph;
     ourGraph.insertCities(cities);
     for(const auto& way : ways) {
@@ -35,8 +35,11 @@ double solveTransportTask(vector <string> cities, vector <way> ways) {
 
     //Then we're going to do ... what???
 
-    cout << "The cheapest way is " << (int)ourGraph.findTheCheapestWay("third", "second") << endl;
-
+    try {
+        cout << "The cheapest way is " << (int) ourGraph.findTheCheapestWay(from, to) << endl;
+    } catch (string err) {
+        cout << "error occuirred : " << err << endl;
+    }
     ourGraph.printCountry();
 
     return 0;

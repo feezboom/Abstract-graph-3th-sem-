@@ -108,9 +108,9 @@ void CountryGraph <type, E> :: addRailway(const string &city1, const string &cit
 template <class type, class E>
 double CountryGraph <type, E> :: findTheCheapestWay(const string &start, const string &finish) {
     if(!cityInCountry(start))
-        throw "city" + start + "does not exist";
+        throw "city " + start + " does not exist";
     if(!cityInCountry(finish))
-        throw "city" + finish + "does not exist";
+        throw "city " + finish + " does not exist";
 
     // Everything like in Dijkstra algorithm
     this->makeDistancesInfinite();
@@ -147,6 +147,8 @@ void CountryGraph <type, E> :: processing() {
         double candidate2 = it.second->distance;
 
         neighbourPtr->distance = min(candidate1, candidate2);
+        if (candidate1 < candidate2)
+            neighbourPtr->previousTravel = Travel :: road;
     }
 
     // А после этого ищем эти пути по железным дорогам, и если они дешевле, вдруг, то они обновятся
@@ -162,6 +164,8 @@ void CountryGraph <type, E> :: processing() {
         double candidate2 = it.second->distance;
 
         neighbourPtr->distance = min(candidate1, candidate2);
+        if (candidate1 < candidate2)
+            neighbourPtr->previousTravel = Travel :: railway;
     }
 
     ourCityPtr->current_color = color :: black;
