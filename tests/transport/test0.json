@@ -16,27 +16,3 @@
 
 	]
 }
-
-
-/*
-{
-    "transport" : [
-    { "vertices" : ["first", "second", "third", "zero", "fourth"] },
-    { "ways"    : [
-                {"from" : "", "to" : "", "price" : },
-                {"from" : "", "to" : "", "price" : },
-                {"from" : "", "to" : "", "price" : },
-                {"from" : "", "to" : "", "price" : }
-                ],
-      "railways" : [
-                {"from" : "", "to" : "", "price" : },
-                {"from" : "", "to" : "", "price" : },
-                {"from" : "", "to" : "", "price" : },
-                {"from" : "", "to" : "", "price" : }
-                ]
-    }
-
-
-    ]
-}
-  */
