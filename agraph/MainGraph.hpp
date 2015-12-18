@@ -15,6 +15,7 @@
 #include <stack>
 #include <queue>
 #include <exception>
+#include <limits.h>
 
 using namespace std;
 enum class color{ white, black, gray };
@@ -405,6 +406,10 @@ public:
                 jt.second->print_edge();
             }
         }
+    }
+
+    virtual double do_Dijkstra(string from, string to) {
+        return INT_MAX;
     }
 
 };

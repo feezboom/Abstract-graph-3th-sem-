@@ -18,6 +18,7 @@ class AGraph {
         virtual void transpose() = 0;
         virtual vector<vector<string>> getStrongComponents() = 0;
         virtual void print_graph() = 0;
+        virtual double do_Dijkstra(string from, string to) = 0;
 
         virtual ~GraphConcept() {}
     };
@@ -39,6 +40,9 @@ class AGraph {
         }
         virtual void print_graph() {
             return object.print_graph();
+        }
+        virtual double do_Dijkstra(string from, string to) {
+            return object.do_Dijkstra(from, to);
         }
 
 
@@ -79,6 +83,9 @@ public:
     }
     void print_graph() {
         return object->print_graph();
+    }
+    double do_Dijkstra(string from, string to) {
+        return object->do_Dijkstra(from, to);
     }
 };
 
