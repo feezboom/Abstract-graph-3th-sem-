@@ -59,24 +59,41 @@ bool test2Sat(string testName) {
         data.push_back(std::pair<Variable, Variable> (var1, var2));
     }
 
-    bool answer = solve_2sat(data);
+    bool answer = solve2Sat(data, root);
     if(answer) {
         cout << "test " + testName + " has at least one solution" << endl;
     } else {
         cout << "test " + testName + " hasn't got any solutions" << endl;
     }
+
     return answer;
 }
 
-bool solve2Sat(vector<std::pair<Variable, Variable>> disjunkts, Json::Value &value) {
+bool solve2Sat(vector<std::pair<Variable, Variable>>& disjunkts, Json::Value &value) {
+
     Json::Value task = value;
     AGraph* ourGraph = GraphFactory::makeGraph(task);
 
-    for (const auto &it : disjunkts) {
-        string v1 = ((it.first.negative) ? "" : "not") + it.first.label; //this is because of replacing disjunct to implication
-        string v2 = ((it.second.negative) ? "not" : "") + it.second.label
+    if (ourGraph == nullptr)
+        throw "no suitable graph for this task in library!";
 
+    for (int i = 0; i < disjunkts.size(); ++i) {
+        auto it = disjunkts[i];
+        string v1 = ((it.first.negative) ? "" : "not") + it.first.label; //this is because of replacing disjunct to implication
+        string v2 = ((it.second.negative) ? "not" : "") + it.second.label;
+        ourGraph->insert_vertex(v1);
+        ourGraph->insert_vertex(v2);
+        ourGraph->add_edge(v1, v2);
     }
 
+    vector<vector<string>> strongComponents = ourGraph->getStrongComponents();
+
+    cout << strongComponents.size();
+    for (const vector<string> &it : strongComponents) {
+        if (isProblem(it))
+            return false;
+    }
+
+    return true;
 }
 
