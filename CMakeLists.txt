@@ -38,6 +38,6 @@ add_dependencies(tests jsoncpp_lib agraph)
 target_link_libraries(tests agraph jsoncpp)
 
 add_library(2sat_test_lib testLibraries/2satTestLib.cpp)
-target_link_libraries(2sat_test_lib jsoncpp_lib 2sat_task_lib)
+target_link_libraries(2sat_test_lib jsoncpp_lib 2sat_task_lib agraph)
 
 target_link_libraries(tests 2sat_test_lib)

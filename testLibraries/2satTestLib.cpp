@@ -68,8 +68,15 @@ bool test2Sat(string testName) {
     return answer;
 }
 
-bool solve2Sat(Json::Value &value) {
+bool solve2Sat(vector<std::pair<Variable, Variable>> disjunkts, Json::Value &value) {
     Json::Value task = value;
     AGraph* ourGraph = GraphFactory::makeGraph(task);
+
+    for (const auto &it : disjunkts) {
+        string v1 = ((it.first.negative) ? "" : "not") + it.first.label; //this is because of replacing disjunct to implication
+        string v2 = ((it.second.negative) ? "not" : "") + it.second.label
+
+    }
+
 }
 
