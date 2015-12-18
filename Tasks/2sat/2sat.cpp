@@ -1,8 +1,10 @@
 #include "2sat.h"
+#include "../../agraph/agraph.h"
 
 bool solve_2sat(vector <std::pair <Variable, Variable>> disjunkts) {
 
     graph_list <int, int> our2SatGraph;
+
     for (const auto& it : disjunkts) {
         string v1 = ((it.first.negative) ? "" : "not") + it.first.label; //this is because of replacing disjunct to implication
         string v2 = ((it.second.negative) ? "not" : "") + it.second.label;

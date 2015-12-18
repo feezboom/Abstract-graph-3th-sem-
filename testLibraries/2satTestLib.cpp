@@ -1,6 +1,7 @@
-#include "../../2sat/2sat.h"
+#include "../Tasks/2sat/2sat.h"
 #include "2satTestLib.h"
 #include "../agraph/MainGraph.hpp"
+#include "../agraph/agraph.h"
 #include "../jsoncpp/include/json/json.h"
 
 
@@ -21,9 +22,9 @@ void findTest(string name, std :: ifstream& ifs) {
     if(!ifs)
         ifs.open("../tests/" + name, std::ifstream::in);
     if(!ifs)
-        ifs.open("../ninja_turtles/2sat/tests/" + name, std::ifstream::in);
-    if(!ifs)
         ifs.open("../../2sat/tests/" + name, std::ifstream::in);
+    if(!ifs)
+        ifs.open("../ninja_turtles/Tasks/2sat/tests/" + name, std::ifstream::in);
     if(!ifs)
         throw "test file " + name + " was not found";
 }
@@ -44,7 +45,7 @@ bool test2Sat(string testName) {
 
     vector <std::pair<Variable, Variable>> data;
 
-    for(int i = 0; i < g.size(); ++i){
+    for(int i = 0; i < g.size(); ++i) {
         Variable var1, var2;
         Json::Value temp = g[i]["first"];
 
@@ -66,3 +67,9 @@ bool test2Sat(string testName) {
     }
     return answer;
 }
+
+bool solve2Sat(Json::Value &value) {
+    Json::Value task = value;
+    AGraph* ourGraph = GraphFactory::makeGraph(task);
+}
+
