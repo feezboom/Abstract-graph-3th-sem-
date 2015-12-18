@@ -1,0 +1,42 @@
+{
+	"transport" : [
+    { "vertices" : ["first", "second", "third", "zero", "fourth"] },
+    { "ways"    : [
+                {"from" : "second", "to" : "third", "price" :20},
+                {"from" : "zero", "to" : "fourth", "price" : 5},
+                {"from" : "third", "to" : "fourth", "price" : 6}
+                ],
+      "railways" : [
+                {"from" : "first", "to" : "second", "price" : 40},
+                {"from" : "third", "to" : "fourth", "price" : 30},
+                {"from" : "fourth", "to" : "second", "price" : 3}
+                ]
+    }
+
+
+	]
+}
+
+
+/*
+{
+    "transport" : [
+    { "vertices" : ["first", "second", "third", "zero", "fourth"] },
+    { "ways"    : [
+                {"from" : "", "to" : "", "price" : },
+                {"from" : "", "to" : "", "price" : },
+                {"from" : "", "to" : "", "price" : },
+                {"from" : "", "to" : "", "price" : }
+                ],
+      "railways" : [
+                {"from" : "", "to" : "", "price" : },
+                {"from" : "", "to" : "", "price" : },
+                {"from" : "", "to" : "", "price" : },
+                {"from" : "", "to" : "", "price" : }
+                ]
+    }
+
+
+    ]
+}
+  */
