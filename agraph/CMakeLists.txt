@@ -14,3 +14,4 @@ add_library(agraph SHARED ${sources} ${headers})
 
 # генерируем заголовочный файл с определениями для экспорта 
 generate_export_header(agraph)
+
