@@ -7,4 +7,4 @@ add_definitions("-std=c++11")
 add_library(transport_task_lib transport.cpp)
 
 add_executable(transport_exe transportLocalTest.cpp)
-target_link_libraries(transport_exe transport_task_lib)
+target_link_libraries(transport_exe transport_task_lib )

@@ -1,6 +1,6 @@
 #include <vector>
 #include "jsoncpp/include/json/json.h"
-#include "Tasks/transport/transport.h"
+#include "testLibraries/transportTestLib.h"
 #include "agraph/agraph.h"
 
 #include "catch.hpp"
@@ -17,5 +17,5 @@ SCENARIO("ZERO") {
 }
 
 SCENARIO("Testing transport task") {
-
+    REQUIRE(solveTransportTask("test0.json") == 4);
 }

@@ -37,8 +37,10 @@ add_dependencies(tests jsoncpp_lib agraph)
 # указываем зависимости от библиотек
 target_link_libraries(tests agraph jsoncpp)
 # добавим стандартную библиотеку для тестов
-add_library(baseTest_lib testLibraries/baseTestLib.cpp)
+add_library(base_test_lib testLibraries/baseTestLib.cpp)
 
+add_library(transport_test_lib testLibraries/transportTestLib.cpp)
+target_link_libraries(transport_test_lib jsoncpp transport_task_lib base_test_lib)
 
-target_link_libraries(tests transport_task_lib)
+target_link_libraries(tests transport_task_lib transport_test_lib)
 
