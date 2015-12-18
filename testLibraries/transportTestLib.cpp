@@ -1,6 +1,7 @@
 #include "transportTestLib.h"
 #include "../agraph/agraph.h"
 #include "../agraph/TransportGraph.h"
+#include "../Tasks/transport/transport.h"
 #include <iostream>
 #include <fstream>
 #include <assert.h>

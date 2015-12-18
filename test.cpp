@@ -17,5 +17,5 @@ SCENARIO("ZERO") {
 }
 
 SCENARIO("Testing transport task") {
-    REQUIRE(solveTransportTask("test0.json") == 4);
+    REQUIRE(solveOurTransportTask("test0.json") == 4);
 }

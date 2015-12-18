@@ -12,11 +12,14 @@ AGraph* GraphFactory::makeGraph(Json::Value &value){
 	/* сюда же нужно добавить инициализацию */
     //return new AGraph( Graph<int, double>() );
     if (value["transport"] != Json::nullValue) {
-        return new AGraph( TransportGraph< )
+        return new AGraph( CountryGraph<int, int>() );
     }
 	return nullptr;
 }
 
 AGraph* GraphFactory::makeGraph(string taskName) {
+    if (taskName == "transport") {
+        return new AGraph( CountryGraph<int, int>() );
+    }
     return nullptr;
 }
