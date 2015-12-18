@@ -31,20 +31,26 @@ double solveOurTransportTask(string testName) {
 */
 
     GraphFactory::makeGraph(root);
-    GraphFactory::makeGraph("transport");
+    AGraph* ourGraph = GraphFactory::makeGraph("transport");
+    ourGraph->insert_vertex("first");
+    ourGraph->insert_vertex("second");
+    ourGraph->insert_vertex("third");
+    ourGraph->insert_vertex("zero");
+    ourGraph->insert_vertex("fourth");
 
-    vector <string> cities{"first", "second", "third", "zero", "fourth"};
-    vector <way> ways;
-    ways.push_back(way("first", "second", 40, Travel :: railway));
-    ways.push_back(way("second", "third", 20, Travel :: road));
-    ways.push_back(way("third", "fourth", 30, Travel :: railway));
-    ways.push_back(way("zero", "fourth", 5, Travel :: road));
-    ways.push_back(way("fourth", "second", 3, Travel :: railway));
-    ways.push_back(way("third", "fourth", 6, Travel :: road));
+    ourGraph->add_edge("first", "second", -40);
+    ourGraph->add_edge("second", "third", 20);
+    ourGraph->add_edge("third", "fourth", -30);
+    ourGraph->add_edge("zero", "fourth", 5);
+    ourGraph->add_edge("fourth", "second", -3);
+    ourGraph->add_edge("third", "fourth", 6);
+
+    ourGraph->print_graph();
+
+    int answer = ourGraph->do_Dijkstra("third", "second");
 
 
-
-    cout << "Transport answer: " << solveTransportTask(cities, ways) << endl;
+    cout << "Transport answer: " << answer << endl;
 
 
 //  Нужен тест, который провалится на жадном алгоритме.

@@ -2,6 +2,7 @@
 #define _TRANSPORTGRAPH_H_
 
 #include "MainGraph.hpp"
+#include <assert.h>
 
 //*******************************************TRANSPORT BEGIN**************************************************//
 enum class Travel {
@@ -49,12 +50,32 @@ private:
     shared_ptr <City<type>> getPtr(const string& name);
 
 public:
+    // Для концепта
+    virtual void insert_vertex(const string &name) {
+        insertCity(name);
+    }
+    virtual void print_graph() {
+        printCountry();
+    }
+    virtual void add_edge(string from, string to, double weight = 0) {
+        assert(weight != 0);
+        if (weight > 0)
+            addRoad(from, to, weight);
+        if (weight < 0)
+            addRailway(from, to, -weight);
+    }
+    virtual vector<vector<string>> getStrongComponents() {
+        // Метод не нужен
+        return vector<vector<string>>();
+    }
+    virtual double do_Dijkstra(string from, string to);
+    // Для концепта
+
     void insertCity(const string &cityName);
     void insertCities(const vector <string> &cities);
     void addRoad(const string &city1, const string &city2, double price);
     void addRailway(const string &city1, const string &city2, double price);
     double findTheCheapestWay(const string &start, const string &finish);
-    virtual double do_Dijkstra(string from, string to);
     void theCheapesWayUpdate();
     shared_ptr <City<type>> findMinDistanceCity();
     void processing();//searchingTheCheapestWay
