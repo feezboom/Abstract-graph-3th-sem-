@@ -34,3 +34,5 @@ add_executable(tests ${sources} ${headers})
 add_dependencies(tests jsoncpp_lib agraph)
 # указываем зависимости от библиотек
 target_link_libraries(tests agraph jsoncpp)
+
+add_library(baseTest_lib testLibraries/baseTestLib.cpp)
