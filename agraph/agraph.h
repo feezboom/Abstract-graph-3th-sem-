@@ -17,6 +17,7 @@ class AGraph {
         virtual void add_edge(const string& from, const string& to, double weight = 0) = 0;
         virtual void transpose() = 0;
         virtual vector<vector<string>> getStrongComponents() = 0;
+        virtual void print_graph() = 0;
 
         virtual ~GraphConcept() {}
     };
@@ -25,16 +26,19 @@ class AGraph {
     struct GraphModel : GraphConcept {
         GraphModel( const T& t ) : object( t ) {}
         virtual void insert_vertex(const string& name) {
-            object.insert_vertex(name);
+            return object.insert_vertex(name);
         }
         virtual void add_edge(const string& from, const string& to, double weight = 0) {
-            object.add_edge(from, to, weight);
+            return object.add_edge(from, to, weight);
         }
         virtual void transpose() {
-            object.transpose();
+            return object.transpose();
         }
         virtual vector<vector<string>> getStrongComponents() {
-            object.Kosaraju();
+            return object.Kosaraju();
+        }
+        virtual void print_graph() {
+            return object.print_graph();
         }
 
 
@@ -72,6 +76,9 @@ public:
     }
     vector<vector<string>> getStrongComponents() {
         return object->getStrongComponents();
+    }
+    void print_graph() {
+        return object->print_graph();
     }
 };
 
