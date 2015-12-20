@@ -3,7 +3,7 @@ include(GenerateExportHeader)
 
 project (agraph)
 
-set(headers agraph.h)
+set(headers agraph.h MainGraph.hpp)
 set(sources agraph.cpp)
 
 # добавляем директорию для поиска сгенерированного заголовочного файла

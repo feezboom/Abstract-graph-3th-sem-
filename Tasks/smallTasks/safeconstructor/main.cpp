@@ -9,6 +9,9 @@ int main() {
 	try {
 		A();
 	}
+
+
+
 	catch (string a) {
 		cout << "Error" + a << endl;
 	}
