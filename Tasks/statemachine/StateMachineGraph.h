@@ -11,9 +11,181 @@
 #include <string>
 #include <map>
 
+
+#include <float.h>
+#include <map>
+#include <set>
+#include <vector>
+
+
+using namespace std;
+
+template <class V, class E>
+class Graph {
+protected:
+    vector<V> vertices;
+    map<V, map<V, E>> edges;
+
+    bool vertexInGraph(V v);
+public:
+    Graph();
+    virtual void insertVertex(const V &v);
+    void addEdge(const V &v1, const V &v2, const E &e);
+    void printGraph();
+    E do_Dijkstra(const V &v1, const V &v2);
+
+protected:
+    E getEdge(const V &v1, const V &v2) {
+        if (!vertexInGraph(v1) || !vertexInGraph(v2)) {
+            throw "Одной из вершин нет в графе!";
+        }
+        return edges[v1][v2];
+    }
+};
+
+
+template<class V, class E>
+E Graph<V, E>::do_Dijkstra(const V &v1, const V &v2) {
+    if (!vertexInGraph(v1) || !vertexInGraph(v2))
+        return DBL_MAX;
+
+    multiset <pair<E, V>> pq;
+
+    map <V, E> cost;
+
+    double inf = DBL_MAX - 1;
+    for (auto &it : vertices)
+        cost[it] = inf;
+
+    cost[v1] = 0;
+    pq.insert(make_pair(0, v1));
+
+    while(!pq.empty()) {
+        V father = pq.begin()->second;
+
+        pq.erase(pq.begin());
+
+        auto children = edges[father];
+        for (auto it : children) {
+            V child = it.first;
+            if (cost[child] > cost[father] + edges[father][child]) {
+                pq.erase(make_pair(cost[child], child));
+                cost[child] = cost[father] + edges[father][child];
+                pq.insert(make_pair(cost[child], child));
+            }
+        }
+    }
+    return cost[v2];
+}
+
+template<class V, class E>
+Graph<V, E>::Graph() {};
+
+template<class V, class E>
+void Graph<V, E>::printGraph() {
+    for(const auto &it : vertices) {
+        cout << "VERTEX " << it.source << it.type<< endl;
+        for (const auto &j : edges[it]) {
+            cout << it.source << it.type << "-->" << j.first.source << j.first.type << " cost : " << j.second << " " << endl;
+        }
+    }
+}
+
+template <class V, class E>
+void Graph<V, E>::insertVertex(const V &v) {
+    if (vertexInGraph(v))
+        cerr << "Вершина в графе уже есть!\n";
+    else
+        vertices.push_back(v);
+}
+
+template <class V, class E>
+bool Graph<V, E>::vertexInGraph(V v) {
+    for (const auto &it : vertices) {
+        if (it == v)
+            return true;
+    }
+    return false;
+}
+
+template <class V, class E>
+void Graph<V, E>::addEdge(const V &v1, const V &v2, const E &e) {
+    if (!vertexInGraph(v1) || !vertexInGraph(v2)) {
+        cerr << "Нет вершины для создания ребра" << endl;
+    }
+    edges[v1][v2] = e;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+template <class V, class E>
+class Tree : protected Graph<V, E> {
+private:
+    long rootNumber;
+public:
+    Tree() {
+        rootNumber = -1;
+    }
+    void insertRoot(const V &v) {
+        if (rootNumber == -1) {
+            this->vertices.push_back(v);
+            rootNumber = this->vertices.size();
+        } else
+            cerr << "Корень у дерева уже существует!" << endl;
+    }
+    void addChild(const V &parent, const V &child, const E &e) {
+        if (!(this->vertexInGraph(parent))) {
+            cerr << "Такого родителя не существует!" << endl;
+            return;
+        } else if (this->vertexInGraph(child)) {
+            cerr << "Ребенок уже в графе!" << endl;
+            return;
+        }
+
+        this->vertices.push_back(child);
+        this->edges[parent][child] = e; //Если что, то проверять эту строчку.
+    }
+    void printTree() {
+        this->printGraph();
+    }
+
+    ChildrenIterator childrenBegin() {
+
+    }
+    class ChildrenIterator;
+};
+
+template <class V, class E>
+class Tree<V, E> :: ChildrenIterator {
+    map::iterator ourIterator;
+    ChildrenIterator(map::iterator iterator1) {
+
+    }
+};
+
 using namespace std;
 
 struct stateMachineVertex {
+    int id;
     int parent;                 // Родительская вершина
     char parentSymbol;          // Символ перехода в эту вершину из родительской
     map <char, int> child;      // Массив дочерних вершин
@@ -27,7 +199,31 @@ struct stateMachineVertex {
     stateMachineVertex(int parent, char parentSymbol) :
             pattern(""), isWord(false), suffixLink(-1),
             parent(parent), parentSymbol(parentSymbol),
-            smartSuffixLink(-1) {};
+            smartSuffixLink(-1) {
+        static int count = 0;
+        id = count++;
+    };
+    bool operator==(const stateMachineVertex &v) const {
+        return (parent == v.parent && parentSymbol == v.parentSymbol && pattern == v.pattern);
+    }
+    bool operator<(const stateMachineVertex &v) const {
+        if (pattern < v.pattern)
+            return true;
+        else if (pattern == v.pattern)
+//            return parent < v.parent;
+//        else if (parent == v.parent)
+            return parentSymbol < v.parentSymbol;
+        else if (parentSymbol == v.parentSymbol)
+            return isWord < v.isWord;
+        else if (isWord == v.isWord)
+            return suffixLink < v.suffixLink;
+        else if (suffixLink == v.suffixLink)
+            return smartSuffixLink < v.smartSuffixLink;
+        else if (smartSuffixLink == v.smartSuffixLink)
+            return parent < v.parent;
+        else if (parent == v.parent)
+            return parentSymbol < v.parentSymbol;
+    }
 };
 
 class StateMachineGraph {

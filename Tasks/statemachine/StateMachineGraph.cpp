@@ -1,8 +1,9 @@
 //
 // Created by avk on 06.12.15.
 //
-
+#include <iostream>
 #include "StateMachineGraph.h"
+using std::cout;
 // Конструктор графа
 StateMachineGraph :: StateMachineGraph() {
     // Инициализация бора
@@ -81,6 +82,7 @@ void StateMachineGraph :: insertPattern(const string &name) {
     nodes[active].isWord = true;
     nodes[active].pattern = name;
 }
+
 // Возвращает ответ в виде мультимапа - <строка, начала её вхождений>
 multimap <string, int> StateMachineGraph :: solve(string input) {
     int u = 0;

@@ -6,7 +6,7 @@ using namespace std;
 
 int main(void) {
     cout << "Hello, StateMachine!" << endl;
-    StateMachineGraph ourGraph;
+ /*   StateMachineGraph ourGraph;
 
     ourGraph.insert_vertex("abc");
     ourGraph.insert_vertex("bcdc");
@@ -17,6 +17,21 @@ int main(void) {
     ourGraph.solve("abcdcbcddbbbcccbbbcccbb");
     cout << endl;
     ourGraph.solve("abcdc");
+*/
+    vector<string> input {"abc", "bcdc", "cccb", "bcdd", "bbbc"};
+    string name = "abcdcbcddbbbcccbbbcccbb";
+
+    Tree <stateMachineVertex, char> ourTree;
+
+    // Инициализация бора
+    ourTree.insertRoot(stateMachineVertex(-1, '\0'));
+
+
+    int active = 0;
+    for (int i = 0; i < name.length(); ++i) {
+        char symbol = name[i];
+
+    }
 
     return 0;
 }
