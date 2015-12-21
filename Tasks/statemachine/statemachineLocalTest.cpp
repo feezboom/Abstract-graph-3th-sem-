@@ -110,9 +110,7 @@ int main(void) {
     // Инициализация бора
     for (int j = 0; j < input.size(); ++j) {
         string name = input[j];
-
-
-
+        insertPattern(ourTree, name);
         active.pattern = name;
         active.isWord = true;
         cout << j <<endl;
