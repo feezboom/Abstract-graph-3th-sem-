@@ -25,7 +25,6 @@ class Graph {
 protected:
     vector<V> vertices;
     map<V, map<V, E>> edges;
-
     bool vertexInGraph(V v);
 public:
     Graph();
@@ -40,6 +39,14 @@ protected:
             throw "Одной из вершин нет в графе!";
         }
         return edges[v1][v2];
+    }
+public:
+    typedef typename vector<V>::iterator Iterator;
+    Iterator begin() {
+        return vertices.begin();
+    }
+    Iterator end() {
+        return vertices.end();
     }
 };
 
@@ -141,6 +148,7 @@ template <class V, class E>
 class Tree : protected Graph<V, E> {
 private:
     long rootNumber;
+    typedef typename map<V, E>::iterator ChildrenIterator;
 public:
     Tree() {
         rootNumber = -1;
@@ -167,20 +175,35 @@ public:
     void printTree() {
         this->printGraph();
     }
-
-    ChildrenIterator childrenBegin() {
-
+    E getBranch(const V &v1, const V &v2) {
+        return this->getEdge(v1, v2);
     }
-    class ChildrenIterator;
+    typename Graph<V, E> :: Iterator treeBegin() {
+        return this->vertices.begin();
+    }
+    typename Graph<V, E> :: Iterator treeEnd() {
+        return this->vertices.end();
+    }
+    ChildrenIterator childrenBegin(const V &v) {
+        if(!(this->vertexInGraph(v)))
+            return map<V, E>().end();
+        return this->edges[v].begin();
+    }
+    ChildrenIterator childrenEnd(const V &v) {
+        if (!(this->vertexInGraph(v)))
+            return map<V, E>().end();
+        return this->edges[v].end();
+    }
+    typename Graph<V, E> :: Iterator find(const V &v) {
+        for(auto it = this->vertices.begin(); it != this->vertices.end(); ++it) {
+            if (*it == v)
+                return it;
+        }
+    };
 };
 
-template <class V, class E>
-class Tree<V, E> :: ChildrenIterator {
-    map::iterator ourIterator;
-    ChildrenIterator(map::iterator iterator1) {
 
-    }
-};
+
 
 using namespace std;
 
@@ -204,10 +227,15 @@ struct stateMachineVertex {
         id = count++;
     };
     bool operator==(const stateMachineVertex &v) const {
-        return (parent == v.parent && parentSymbol == v.parentSymbol && pattern == v.pattern);
+        return (id == v.id);
     }
     bool operator<(const stateMachineVertex &v) const {
-        if (pattern < v.pattern)
+        if (parentSymbol < v.parentSymbol)
+            return true;
+        else if (parentSymbol == v.parentSymbol)
+            return parent < v.parent;
+        else return false;
+/*        if (pattern < v.pattern)
             return true;
         else if (pattern == v.pattern)
 //            return parent < v.parent;
@@ -223,6 +251,7 @@ struct stateMachineVertex {
             return parent < v.parent;
         else if (parent == v.parent)
             return parentSymbol < v.parentSymbol;
+            */
     }
 };
 
