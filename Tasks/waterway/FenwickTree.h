@@ -12,14 +12,11 @@ using std::vector;
 
 class FenwickTree {
 public:
-    int G(int x) {
+    int lastBit(int x) {
         if (x != 1)
-            return x&(x + 1);
+            return x - x&(x - 1);
         else
             return 1;
-    }
-    int R(int x) {
-        return(x - (x&(x - 1)));
     }
 private:
     vector<vector<int>> data;
@@ -30,8 +27,6 @@ private:
     vector<vector<int>> redGreen;
     vector<vector<int>> greenRed;
 
-    int verticalPower;
-    int horizontalPower;
     void prepare();
 public:
     FenwickTree(vector<vector<int>> data);

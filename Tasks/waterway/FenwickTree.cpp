@@ -32,8 +32,8 @@ void FenwickTree::updateRedRed() {
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[i].size(); ++j) {
             int min = INT_MAX;
-            for (int k = i - R(i); k < data.size(); ++k)
-                for (int l = j - R(j); l < data[i].size(); ++l)
+            for (int k = i - lastBit(i); k < data.size(); ++k)
+                for (int l = j - lastBit(j); l < data[i].size(); ++l)
                     if (data[i][j] < min)
                         min = data[i][j];
             redRed[i][j] = min;
@@ -45,7 +45,7 @@ void FenwickTree::updateRedGreen() {
     for (int i = 0; i < data.size(); ++i) {
         for (int j = 0; j < data[i].size(); ++j) {
             int min = INT_MAX;
-            for (int k = i - R(i); k < data.size(); ++k) {
+            for (int k = i - lastBit(i); k < data.size(); ++k) {
 
             }
         }
@@ -57,8 +57,8 @@ int FenwickTree::getMin(int leftIndex, int rightIndex, int upIndex, int downInde
     int i = upIndex, j = leftIndex;
     int result = INT_MAX;
 
-    for(; i + G(i) <= downIndex; i += G(i)) {
-        for(; j + G(j) <= rightIndex; j += G(j)) {
+    for(; i + lastBit(i) <= downIndex; i += lastBit(i)) {
+        for(; j + lastBit(j) <= rightIndex; j += lastBit(j)) {
             result = min(result, right[i][j]);
         }
     }
@@ -66,29 +66,15 @@ int FenwickTree::getMin(int leftIndex, int rightIndex, int upIndex, int downInde
     result = min(result, data[i-1][j-1]);
     i = downIndex, j = rightIndex;
 
-    for(; i - G(i) >= upIndex; i -= G(i))
-        for(; j - G(j) >= leftIndex; j -= G(j))
+    for(; i - lastBit(i) >= upIndex; i -= lastBit(i))
+        for(; j - lastBit(j) >= leftIndex; j -= lastBit(j))
             result = min(result, left[i][j]);
 
     return result;
 }
 
 void FenwickTree::print() {
-    std::cout << "Left : " << std::endl;
-    for(int i = 0; i < left.size(); ++i) {
-        for(int j = 0; j < left[i].size(); ++j) {
-            std::cout << left[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
-    std :: cout << std::endl;
-    std::cout << "Right : " << std::endl;
-    for(int i = 0; i < right.size(); ++i) {
-        for(int j = 0; j < right[i].size(); ++j) {
-            std::cout << right[i][j] << " ";
-        }
-        std::cout << std::endl;
-    }
+
     std::cout << "printing data" << endl;
     for(const auto it: data) {
         for(const auto jt : it) {

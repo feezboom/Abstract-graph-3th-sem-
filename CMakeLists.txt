@@ -37,7 +37,11 @@ add_dependencies(tests jsoncpp_lib agraph)
 # указываем зависимости от библиотек
 target_link_libraries(tests agraph jsoncpp)
 
+<<<<<<< HEAD
 add_library(waterway_test_lib testLibraries/waterwayTestLib.cpp)
 target_link_libraries(waterway_test_lib jsoncpp_lib waterway_task_lib)
 
 target_link_libraries(tests waterway_test_lib)
+=======
+add_library(baseTest_lib testLibraries/baseTestLib.cpp)
+>>>>>>> 11eadf9d5dc29e7bd02bd3f95fe5d0815f153827

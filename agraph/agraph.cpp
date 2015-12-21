@@ -12,3 +12,7 @@ AGraph* GraphFactory::makeGraph(Json::Value &){
     //return new AGraph( Graph<int, double>() );
 	return nullptr;
 }
+
+AGraph* GraphFactory::makeGraph(string taskName) {
+    return nullptr;
+}

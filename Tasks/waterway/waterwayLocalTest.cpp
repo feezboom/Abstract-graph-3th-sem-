@@ -15,7 +15,7 @@ int main() {
 
 
 
-    cout << FenwickTree::G(1);
+    cout << FenwickTree::lastBit(1);
 
     return 0;
 }
