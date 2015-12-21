@@ -12,24 +12,36 @@ using std::vector;
 
 class FenwickTree {
 public:
-    static int G(int i) {
-        return i - (i&(i-1));
+    int G(int x) {
+        if (x != 1)
+            return x&(x + 1);
+        else
+            return 1;
+    }
+    int R(int x) {
+        return(x - (x&(x - 1)));
     }
 private:
     vector<vector<int>> data;
 
-    vector<vector<int>> left;
-    vector<vector<int>> right;
+    vector<vector<int>> redRed;
+    vector<vector<int>> greenGreen;
 
-    vector<vector<int>> up;
-    vector<vector<int>> down;
+    vector<vector<int>> redGreen;
+    vector<vector<int>> greenRed;
 
     int verticalPower;
     int horizontalPower;
     void prepare();
 public:
     FenwickTree(vector<vector<int>> data);
-    void update(int i, int j, int value);
+
+
+    void updateGreenGreen();
+    void updateGreenRen();
+    void updateRedGreen();
+    void updateRedRed();
+
     int getMin(int leftIndex, int rightIndex, int upIndex, int downIndex);
     void print();
 };

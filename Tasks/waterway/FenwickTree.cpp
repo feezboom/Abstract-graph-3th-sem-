@@ -9,42 +9,49 @@
 
 using namespace std;
 
-#define min(a,b) ((a) < (b) ? (a) : (b))
+//#define min(a,b) ((a) < (b) ? (a) : (b))
 
 FenwickTree:: FenwickTree(vector<vector<int>> data) : data(data) {
     prepare();
 }
 
 void FenwickTree::prepare() {
-    // Calculating powers
-    for(verticalPower = 0; pow(2, verticalPower) < data.size(); ++verticalPower);
-    for(horizontalPower = 0; pow(2, horizontalPower) < data[0].size(); ++horizontalPower);
     // Initializing left and right
-    left.resize(pow(2, verticalPower), vector<int>(pow(2, horizontalPower), INT_MAX));
-    right.resize(pow(2, verticalPower), vector<int>(pow(2, horizontalPower), INT_MAX));
+    redRed.resize(data.size(), vector<int>(data[0].size(), INT_MAX));
+    greenGreen.resize(data.size(), vector<int>(data[0].size(), INT_MAX));
+    redGreen.resize(data.size(), vector<int>(data[0].size(), INT_MAX));
+    greenRed.resize(data.size(), vector<int>(data[0].size(), INT_MAX));
 
-    up.resize(pow(2, horizontalPower), vector<int>(pow(2, verticalPower), INT_MAX));
-    down.resize(pow(2, horizontalPower), vector<int>(pow(2, verticalPower), INT_MAX));
+    updateGreenGreen();
+    updateGreenRen();
+    updateRedGreen();
+    updateRedRed();
+}
 
-    for(int i = 0; i < data.size(); ++i) {
-        for(int j = 0; j < data[0].size(); ++j) {
-            update(i, j, data[i][j]);
+void FenwickTree::updateRedRed() {
+    for (int i = 0; i < data.size(); ++i) {
+        for (int j = 0; j < data[i].size(); ++j) {
+            int min = INT_MAX;
+            for (int k = i - R(i); k < data.size(); ++k)
+                for (int l = j - R(j); l < data[i].size(); ++l)
+                    if (data[i][j] < min)
+                        min = data[i][j];
+            redRed[i][j] = min;
         }
     }
 }
 
-void FenwickTree::update(int indexI, int indexJ, int value) {
-    int i = indexI, j = indexJ;
-    for(; i < right.size(); i++)
-        for(; j < right[i].size(); j += G(j))
-            right[i][j] = min(left[i][j], value);
+void FenwickTree::updateRedGreen() {
+    for (int i = 0; i < data.size(); ++i) {
+        for (int j = 0; j < data[i].size(); ++j) {
+            int min = INT_MAX;
+            for (int k = i - R(i); k < data.size(); ++k) {
 
-    i = indexI, j = indexJ;
-    for(; i > 0; i -= G(i))
-        for(; j > 0; j -= G(j))
-            right[i][j] = min(right[i][j], value);
-
+            }
+        }
+    }
 }
+
 
 int FenwickTree::getMin(int leftIndex, int rightIndex, int upIndex, int downIndex) {
     int i = upIndex, j = leftIndex;
