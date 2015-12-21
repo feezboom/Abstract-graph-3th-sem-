@@ -23,18 +23,21 @@ void FenwickTree::prepare() {
     left.resize(pow(2, verticalPower), vector<int>(pow(2, horizontalPower), INT_MAX));
     right.resize(pow(2, verticalPower), vector<int>(pow(2, horizontalPower), INT_MAX));
 
+    up.resize(pow(2, horizontalPower), vector<int>(pow(2, verticalPower), INT_MAX));
+    down.resize(pow(2, horizontalPower), vector<int>(pow(2, verticalPower), INT_MAX));
+
     for(int i = 0; i < data.size(); ++i) {
         for(int j = 0; j < data[0].size(); ++j) {
-            update(i + 1, j + 1, data[i][j]);
+            update(i, j, data[i][j]);
         }
     }
 }
 
 void FenwickTree::update(int indexI, int indexJ, int value) {
     int i = indexI, j = indexJ;
-    for(; i < left.size(); i += G(i))
-        for(; j < left[i].size(); j += G(j))
-            left[i][j] = min(left[i][j], value);
+    for(; i < right.size(); i++)
+        for(; j < right[i].size(); j += G(j))
+            right[i][j] = min(left[i][j], value);
 
     i = indexI, j = indexJ;
     for(; i > 0; i -= G(i))
